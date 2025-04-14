@@ -13,6 +13,17 @@ A simple Pinterest clone built with Django. **Users can upload pins, like pins, 
 
 ---
 
+## 🎮 Features
+
+- **User Registration and Authentication:** Register, login, and manage your account.
+- **Pin Upload:** Upload images as pins with titles and descriptions.
+- **Like Pins:** Like or unlike pins.
+- **Commenting:** Leave comments on pins.
+- **Search Pins:** Search for pins by title.
+- **User Profiles:** View the profile of users who uploaded the pins.
+
+---
+
 ## 💻 Installation
 
 1. Clone the repository:
@@ -34,17 +45,6 @@ A simple Pinterest clone built with Django. **Users can upload pins, like pins, 
    python manage.py runserver
 
 7. Visit http://127.0.0.1:8000/ in your browser.
-
----
-
-## 🎮 Features
-
-- **User Registration and Authentication:** Register, login, and manage your account.
-- **Pin Upload:** Upload images as pins with titles and descriptions.
-- **Like Pins:** Like or unlike pins.
-- **Commenting:** Leave comments on pins.
-- **Search Pins:** Search for pins by title.
-- **User Profiles:** View the profile of users who uploaded the pins.
 
 ---
 
