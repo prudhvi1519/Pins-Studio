@@ -1,22 +1,23 @@
-Pinterest Clone
-A simple Pinterest clone built with Django. Users can upload pins, like pins, comment on pins, and search through uploaded pins.
+# Pinterest Clone
 
-🛠️ Technologies Used
-Django: A Python web framework for building dynamic websites.
+A simple Pinterest clone built with Django. Users can upload pins, like pins, comment on pins, and search through uploaded pins. 
 
-HTML/CSS/JS: Frontend technologies for styling and interactivity.
+---
 
-Bootstrap: CSS framework for responsive web design.
+## 🛠️ Technologies Used
 
-SQLite: Database for storing user and pin data.
+- **Django**: A Python web framework for building dynamic websites.
+- **HTML/CSS/JS**: Frontend technologies for styling and interactivity.
+- **Bootstrap**: CSS framework for responsive web design.
+- **SQLite**: Database for storing user and pin data.
 
-💻 Installation
-Clone the repository:
+---
 
-bash
-Copy
-Edit
-git clone https://github.com/prudhvi1519/Pinterest-clone.git
+## 💻 Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/prudhvi1519/Pinterest-clone.git
 Navigate to the project directory:
 
 bash
@@ -83,6 +84,3 @@ Make your changes and commit (git commit -am 'Add new feature').
 Push to your branch (git push origin feature-name).
 
 Create a new pull request.
-
-⚖️ License
-This project is open source and available under the MIT License.
