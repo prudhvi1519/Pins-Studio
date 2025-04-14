@@ -1,6 +1,6 @@
 # Pinterest Clone
 
-A simple Pinterest clone built with Django. Users can upload pins, like pins, comment on pins, and search through uploaded pins. 
+A simple Pinterest clone built with Django. **Users can upload pins, like pins, comment on pins, and search through uploaded pins**. 
 
 ---
 
