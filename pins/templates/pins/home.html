@@ -1,0 +1,63 @@
+{% extends 'pins/base.html' %}
+
+{% block content %}
+<h1>Welcome to Pinterest Clone😉</h1>
+<a href="{% url 'upload_pin' %}" class="btn btn-success">Upload a Pin</a>
+
+<form method="get" class="my-4">
+  <input type="text" name="q" value="{{ query }}" placeholder="Search by Pin title..." class="form-control" />
+  <button type="submit" class="btn btn-primary mt-2">Search</button>
+</form>
+
+<div class="row mt-4">
+  {% for pin in pins %}
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <img src="{{ pin.image.url }}" class="card-img-top" alt="{{ pin.title }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ pin.title }}</h5>
+          <p class="card-text">
+            Uploaded by {{ pin.user.username }}<br>
+            <small class="text-muted">{{ pin.created_at|timesince }} ago</small>
+          </p>
+
+          <!-- Like Button -->
+          {% if user in pin.likes.all %}
+            <a href="{% url 'like_pin' pin.id %}" class="btn btn-danger">Unlike</a>
+          {% else %}
+            <a href="{% url 'like_pin' pin.id %}" class="btn btn-primary">Like</a>
+          {% endif %}
+
+          <p>{{ pin.like_count }} Likes</p>
+
+          <!-- Display Comments -->
+          <h6>Comments:</h6>
+          <ul>
+            {% for comment in pin.comments.all %}
+              <li>
+                <strong>{{ comment.user.username }}:</strong> {{ comment.text }}
+                <small class="text-muted">({{ comment.created_at|timesince }} ago)</small>
+
+                <!-- Edit button for the comment owner -->
+                {% if comment.user == request.user %}
+                  <a href="{% url 'edit_comment' comment.id %}" class="btn btn-warning btn-sm">Edit</a>
+                {% endif %}
+              </li>
+            {% empty %}
+              <li>No comments yet.</li>
+            {% endfor %}
+          </ul>
+
+          <!-- Comment Form -->
+          <form method="POST">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <input type="hidden" name="pin_id" value="{{ pin.id }}">  <!-- Hidden field to pass pin id -->
+            <button type="submit" class="btn btn-primary">Add Comment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

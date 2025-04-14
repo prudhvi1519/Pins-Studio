@@ -1,0 +1,42 @@
+# Python related
+*.pyc
+*.pyo
+__pycache__/
+*.pyd
+*.db
+*.sqlite3
+*.log
+
+# Django migrations
+migrations/
+
+# Virtual environment
+venv/
+env/
+*.env
+
+# IDE or Editor specific files
+.vscode/
+.idea/
+
+
+# Media files
+media/
+
+# Local settings
+local_settings.py
+
+# PyCharm specific files
+.idea/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# MacOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+
+# .env file for storing sensitive information (example)
+.env
