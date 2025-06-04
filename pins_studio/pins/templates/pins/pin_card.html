@@ -1,5 +1,5 @@
 {% for pin in pins %}
-     <div class="col-md-4 mb-4">
+     <div class="col-md-4">
          <div class="card">
              {% if pin.image %}
              <img src="{{ pin.image.url }}" class="card-img-top" alt="{{ pin.title }}">
@@ -18,23 +18,27 @@
                  {% if pin.description and pin.description != 'None' and not 'Unsplash' in pin.description %}
                  <p class="card-text">{{ pin.description }}</p>
                  {% endif %}
-                 <a href="{% url 'like_pin' pin.id %}" class="btn btn-sm btn-outline-primary like-button-effect">
+                 <a href="{% url 'like_pin' pin.id %}" class="btn btn-sm btn-like like-button-effect">
                      {{ pin.likes.count }} Like{{ pin.likes.count|pluralize }}
                  </a>
                  {% if pin.comments.all %}
-                 <h6>Comments:</h6>
+                 <h6 class="comment-heading">Comments:</h6>
                  {% for comment in pin.comments.all %}
-                 <p>{{ comment.user.username }}: {{ comment.text }}</p>
+                 <p class="comment-text"><span class="highlight-username">{{ comment.user.username }}</span>: {{ comment.text }}</p>
                  {% if user == comment.user %}
-                 <a href="{% url 'edit_comment' comment.id %}">Edit</a>
-                 <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+                 <div class="comment-actions">
+                     <a href="{% url 'edit_comment' comment.id %}" class="btn btn-sm btn-outline-primary comment-action">Edit</a>
+                     <a href="{% url 'delete_comment' comment.id %}" class="btn btn-sm btn-outline-danger comment-action">Delete</a>
+                 </div>
                  {% endif %}
                  {% endfor %}
                  {% endif %}
                  {% if user.is_authenticated %}
-                 <form method="post" action="{% url 'home' %}">
+                 <form method="post" action="{% url 'home' %}" class="comment-form">
                      {% csrf_token %}
-                     {{ comment_form.as_p }}
+                     <div class="comment-input-wrapper">
+                         {{ comment_form.text }}
+                     </div>
                      <input type="hidden" name="pin_id" value="{{ pin.id }}">
                      <button type="submit" class="btn btn-primary">Comment</button>
                  </form>
