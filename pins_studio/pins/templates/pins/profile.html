@@ -1,5 +1,4 @@
 {% extends 'pins/base.html' %}
-
 {% block content %}
 <div class="container mt-4">
     <h1>Welcome, {{ user.username }}🫣</h1>
@@ -25,7 +24,13 @@
         {% for pin in user_pins %}
         <div class="col-md-4 mb-4">
             <div class="card">
+                {% if pin.image %}
                 <img src="{{ pin.image.url }}" class="card-img-top" alt="{{ pin.title }}" style="height: 200px; object-fit: cover;">
+                {% elif pin.image_url %}
+                <img src="{{ pin.image_url }}" class="card-img-top" alt="{{ pin.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-secondary text-white text-center" style="height: 200px; line-height: 200px;">No Image</div>
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ pin.title }}</h5>
                     <p class="card-text">{{ pin.created_at|date:"F j, Y" }}</p>

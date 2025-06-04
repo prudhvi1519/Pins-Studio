@@ -130,20 +130,30 @@ def edit_comment(request, comment_id):
 @login_required
 def profile(request):
     user_pins = Pin.objects.filter(user=request.user)
-    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     if request.method == 'POST':
-        pin_id = request.POST.get('pin_id')
-        if pin_id:
+        if 'pin_id' in request.POST:
             try:
-                pin = Pin.objects.get(id=pin_id, user=request.user)
+                pin = Pin.objects.get(id=request.POST.get('pin_id'), user=request.user)
                 pin.delete()
                 return redirect('profile')
             except Pin.DoesNotExist:
                 return redirect('profile')
+        else:
+            profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
+            if profile_form.is_valid():
+                profile_form.save()
+                messages.success(request, 'Profile updated successfully!')
+                return redirect('profile')
+    else:
+        profile_form = ProfileForm(instance=profile)
 
     return render(request, 'pins/profile.html', {
         'user_pins': user_pins,
         'username': request.user.username,
+        'profile_form': profile_form,
+        'profile': profile,
     })
 
 @login_required
