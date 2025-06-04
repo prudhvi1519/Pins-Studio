@@ -18,7 +18,7 @@
                  {% if pin.description and pin.description != 'None' and not 'Unsplash' in pin.description %}
                  <p class="card-text">{{ pin.description }}</p>
                  {% endif %}
-                 <a href="{% url 'like_pin' pin.id %}" class="btn btn-sm btn-outline-primary">
+                 <a href="{% url 'like_pin' pin.id %}" class="btn btn-sm btn-outline-primary like-button-effect">
                      {{ pin.likes.count }} Like{{ pin.likes.count|pluralize }}
                  </a>
                  {% if pin.comments.all %}
