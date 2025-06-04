@@ -3,6 +3,7 @@ import django
 from django.contrib.auth.models import User
 from decouple import config
 
+# Set up Django settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pins_studio.settings')
 django.setup()
 
