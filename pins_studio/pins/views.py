@@ -5,6 +5,7 @@ from django.contrib.auth.views import redirect_to_login
 from .forms import SignUpForm, PinForm, CommentForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from .models import Pin, Comment, Profile
+from django.core.paginator import Paginator, EmptyPage
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -41,23 +42,24 @@ def home(request):
     })
 
 def load_more_pins(request):
-    page = request.GET.get('page', 1)
-    query = request.GET.get('q', '')
-    pins = Pin.objects.filter(title__icontains=query).select_related('user').prefetch_related('comments', 'likes') if query else Pin.objects.all().select_related('user').prefetch_related('comments', 'likes').order_by('-created_at')
-    paginator = Paginator(pins, 9)
-    try:
-        pins_page = paginator.page(page)
-    except:
-        return JsonResponse({'has_next': False, 'html': ''})
-    html = render_to_string('pins/pin_card.html', {
-        'pins': pins_page,
-        'user': request.user,
-        'comment_form': CommentForm(),
-    }, request=request)
-    return JsonResponse({
-        'has_next': pins_page.has_next(),
-        'html': html,
-    })
+         page = request.GET.get('page', 1)
+         query = request.GET.get('q', '')
+         # Optimize query with select_related and prefetch_related
+         pins = Pin.objects.filter(title__icontains=query).select_related('user').prefetch_related('comments', 'likes') if query else Pin.objects.all().select_related('user').prefetch_related('comments', 'likes').order_by('-created_at')
+         paginator = Paginator(pins, 9)  # 9 pins per page
+         try:
+             pins_page = paginator.page(page)
+         except EmptyPage:
+             return JsonResponse({'has_next': False, 'html': ''})
+         html = render_to_string('pins/pin_card.html', {
+             'pins': pins_page,
+             'user': request.user,
+             'comment_form': CommentForm(),
+         }, request=request)
+         return JsonResponse({
+             'has_next': pins_page.has_next(),
+             'html': html,
+         })
 
 def signup_view(request):
     if request.method == 'POST':

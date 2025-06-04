@@ -91,7 +91,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static' / 'pins']
+STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static']
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
@@ -104,3 +104,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') if ENVIRONMENT == 'local' else '/op
 LOGIN_URL = '/login/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+UNSPLASH_ACCESS_KEY = config('UNSPLASH_ACCESS_KEY')

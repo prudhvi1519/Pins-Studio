@@ -4,11 +4,11 @@ from django.utils import timezone
 
 # Pin model with a likes ManyToManyField
 class Pin(models.Model):
-    title = models.CharField(max_length=200)  # Increased from 100
+    title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='pins/', blank=True, null=True)
     image_url = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, db_index=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     likes = models.ManyToManyField(User, related_name='liked_pins', blank=True, through='Pin_likes')
 
