@@ -285,6 +285,20 @@ a:hover {
     color: #c7001e;
 }
 
+/* highlighting */
+.highlight-label {
+         color: #e91e63; /* Bright pink */
+         font-weight: bold;
+         text-decoration: underline;
+         font-style: italic;
+     }
+     .highlight-username {
+         color: #151a19 !important; /* Dark gray, your choice */
+         font-weight: bold;
+         font-style: normal;
+         text-decoration: none;
+     }
+
 /* Lists */
 ul {
     list-style: none;
@@ -338,3 +352,4 @@ li {
     padding: 6px;
     border-radius: 5px;
   }
+
