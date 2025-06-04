@@ -93,11 +93,13 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static' / 'pins']
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') if ENVIRONMENT == 'local' else '/opt/render/project/src/media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') if ENVIRONMENT == 'local' else '/opt/render/project/src/pins_studio/media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
