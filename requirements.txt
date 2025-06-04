@@ -1,0 +1,8 @@
+Django>=5.0
+python-decouple
+dj-database-url
+psycopg2-binary
+whitenoise
+gunicorn
+mysqlclient
+Pillow

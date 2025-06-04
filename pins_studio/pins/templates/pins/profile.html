@@ -1,0 +1,45 @@
+{% extends 'pins/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Welcome, {{ user.username }}🫣</h1>
+
+    <!-- Profile Picture and Bio -->
+    <div class="mb-4">
+        <div class="card-body">
+            <h3>Your Profile</h3>
+            {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" style="max-width: 150px; border-radius: 50%;">
+            {% endif %}
+            <p><strong>Bio:</strong> {{ profile.bio|default:"No bio yet." }}</p>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ profile_form.as_p }}
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Your Uploaded Pins</h2>
+    <div class="row">
+        {% for pin in user_pins %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ pin.image.url }}" class="card-img-top" alt="{{ pin.title }}" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ pin.title }}</h5>
+                    <p class="card-text">{{ pin.created_at|date:"F j, Y" }}</p>
+                    <form method="POST" action="{% url 'profile' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="pin_id" value="{{ pin.id }}">
+                        <button type="submit" class="btn btn-danger">Delete Pin</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="alert alert-info">You haven't uploaded any pins yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

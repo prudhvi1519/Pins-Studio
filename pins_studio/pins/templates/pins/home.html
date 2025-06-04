@@ -1,0 +1,23 @@
+{% extends 'pins/base.html' %}
+{% load static %}
+{% block content %}
+<h1>Welcome to Pins Studio😉</h1>
+{% if user.is_authenticated %}
+<a href="{% url 'upload_pin' %}" class="btn btn-success">Upload a Pin</a>
+{% endif %}
+
+<form method="get" class="my-4">
+  <input type="text" name="q" value="{{ query }}" placeholder="Search by Pin title..." class="form-control" />
+  <button type="submit" class="btn btn-primary mt-2">Search</button>
+</form>
+
+<div class="row mt-4" id="pins-container">
+  {% include 'pins/pin_card.html' with pins=pins %}
+</div>
+
+<div id="loading" style="display: none; text-align: center; padding: 20px;">
+  Loading more pins...
+</div>
+
+<script src="{% static 'pins/js/infinite_scroll.js' %}"></script>
+{% endblock %}
