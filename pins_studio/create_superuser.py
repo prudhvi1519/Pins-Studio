@@ -1,5 +1,11 @@
+import os
+import django
 from django.contrib.auth.models import User
 from decouple import config
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pins_studio.settings')
+django.setup()
+
 def create_superuser():
     username = config('SUPERUSER_USERNAME', default='admin')
     email = config('SUPERUSER_EMAIL', default='admin@example.com')
