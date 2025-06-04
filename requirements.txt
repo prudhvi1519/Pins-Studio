@@ -6,3 +6,4 @@ whitenoise
 gunicorn
 mysqlclient
 Pillow
+requests>=2.0

@@ -1,56 +1,38 @@
 {% for pin in pins %}
-<div class="col-md-4">
-  <div class="card mb-4">
-    <img src="{{ pin.image.url }}" class="card-img-top" alt="{{ pin.title }}">
-    <div class="card-body">
-      <h5 class="card-title">{{ pin.title }}</h5>
-      <p class="card-text">
-        Uploaded by {{ pin.user.username }}<br>
-        <small class="text-muted">{{ pin.created_at|timesince }} ago</small>
-      </p>
-
-      <!-- Like Button -->
-      {% if user.is_authenticated %}
-        {% if user in pin.likes.all %}
-          <a href="{% url 'like_pin' pin.id %}" class="btn btn-danger">Unlike</a>
-        {% else %}
-          <a href="{% url 'like_pin' pin.id %}" class="btn btn-primary">Like</a>
+<div class="col-md-4 mb-4">
+    <div class="card">
+        {% if pin.image %}
+        <img src="{{ pin.image.url }}" class="card-img-top" alt="{{ pin.title }}">
+        {% elif pin.image_url %}
+        <img src="{{ pin.image_url }}" class="card-img-top" alt="{{ pin.title }}">
         {% endif %}
-      {% else %}
-        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary">Like (Login Required)</a>
-      {% endif %}
-
-      <p>{{ pin.like_count }} Likes</p>
-
-      <!-- Display Comments -->
-      <h6>Comments:</h6>
-      <ul>
-        {% for comment in pin.comments.all %}
-          <li>
-            <strong>{{ comment.user.username }}:</strong> {{ comment.text }}
-            <small class="text-muted">({{ comment.created_at|timesince }} ago)</small>
-            {% if user.is_authenticated and comment.user == user %}
-              <a href="{% url 'edit_comment' comment.id %}" class="btn btn-warning btn-sm">Edit</a>
-              <a href="{% url 'delete_comment' comment.id %}" class="btn btn-danger btn-sm">Delete</a>
+        <div class="card-body">
+            <h5 class="card-title">{{ pin.title }}</h5>
+            <p class="card-text">{{ pin.description }}</p>
+            <a href="{% url 'like_pin' pin.id %}" class="btn btn-sm btn-outline-primary">
+                {{ pin.likes.count }} Like{{ pin.likes.count|pluralize }}
+            </a>
+            {% if pin.comments.all %}
+            <h6>Comments:</h6>
+            {% for comment in pin.comments.all %}
+            <p>{{ comment.user.username }}: {{ comment.text }}</p>
+            {% if user == comment.user %}
+            <a href="{% url 'edit_comment' comment.id %}">Edit</a>
+            <a href="{% url 'delete_comment' comment.id %}">Delete</a>
             {% endif %}
-          </li>
-        {% empty %}
-          <li>No comments yet.</li>
-        {% endfor %}
-      </ul>
-
-      <!-- Comment Form -->
-      {% if user.is_authenticated %}
-        <form method="POST" action="{% url 'home' %}">
-          {% csrf_token %}
-          {{ comment_form.as_p }}
-          <input type="hidden" name="pin_id" value="{{ pin.id }}">
-          <button type="submit" class="btn btn-primary">Add Comment</button>
-        </form>
-      {% else %}
-        <p><a href="{% url 'login' %}?next={{ request.path }}">Login</a> to add a comment.</p>
-      {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'home' %}">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <input type="hidden" name="pin_id" value="{{ pin.id }}">
+                <button type="submit" class="btn btn-primary">Comment</button>
+            </form>
+            {% endif %}
+        </div>
     </div>
-  </div>
 </div>
+{% empty %}
+<p>No pins available.</p>
 {% endfor %}

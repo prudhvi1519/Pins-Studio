@@ -45,40 +45,15 @@ def load_more_pins(request):
     query = request.GET.get('q', '')
     pins = Pin.objects.filter(title__icontains=query).select_related('user').prefetch_related('comments', 'likes') if query else Pin.objects.all().select_related('user').prefetch_related('comments', 'likes').order_by('-created_at')
     paginator = Paginator(pins, 9)
-
     try:
         pins_page = paginator.page(page)
     except:
         return JsonResponse({'has_next': False, 'html': ''})
-
     html = render_to_string('pins/pin_card.html', {
         'pins': pins_page,
         'user': request.user,
         'comment_form': CommentForm(),
     }, request=request)
-
-    return JsonResponse({
-        'has_next': pins_page.has_next(),
-        'html': html,
-    })
-
-def load_more_pins(request):
-    page = request.GET.get('page', 1)
-    query = request.GET.get('q', '')
-    pins = Pin.objects.filter(title__icontains=query) if query else Pin.objects.all().order_by('-created_at')
-    paginator = Paginator(pins, 9)  # 9 pins per page
-
-    try:
-        pins_page = paginator.page(page)
-    except:
-        return JsonResponse({'has_next': False, 'html': ''})
-
-    html = render_to_string('pins/pin_card.html', {
-        'pins': pins_page,
-        'user': request.user,
-        'comment_form': CommentForm(),
-    }, request=request)
-
     return JsonResponse({
         'has_next': pins_page.has_next(),
         'html': html,
@@ -111,6 +86,8 @@ def logout_view(request):
 
 @login_required
 def upload_pin(request):
+    if not request.user.is_authenticated:
+        return redirect_to_login(request.get_full_path())
     if request.method == 'POST':
         form = PinForm(request.POST, request.FILES)
         if form.is_valid():
@@ -124,6 +101,8 @@ def upload_pin(request):
 
 @login_required
 def like_pin(request, pin_id):
+    if not request.user.is_authenticated:
+        return redirect_to_login(request.get_full_path())
     pin = Pin.objects.get(id=pin_id)
     if request.user in pin.likes.all():
         pin.likes.remove(request.user)
