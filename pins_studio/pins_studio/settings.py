@@ -2,31 +2,40 @@ from pathlib import Path
 import os
 from decouple import config
 import dj_database_url
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 ENVIRONMENT = config('ENVIRONMENT', default='local')
+
 SECRET_KEY = config('SECRET_KEY')
+
 DEBUG = config('DEBUG', default=False, cast=bool)
+
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost').split(',')
+
 INSTALLED_APPS = [
-'django.contrib.admin',
-'django.contrib.auth',
-'django.contrib.contenttypes',
-'django.contrib.sessions',
-'django.contrib.messages',
-'django.contrib.staticfiles',
-'pins',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'pins',
 ]
+
 MIDDLEWARE = [
-'django.middleware.security.SecurityMiddleware',
-'whitenoise.middleware.WhiteNoiseMiddleware',
-'django.contrib.sessions.middleware.SessionMiddleware',
-'django.middleware.common.CommonMiddleware',
-'django.middleware.csrf.CsrfViewMiddleware',
-'django.contrib.auth.middleware.AuthenticationMiddleware',
-'django.contrib.messages.middleware.MessageMiddleware',
-'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 ROOT_URLCONF = 'pins_studio.urls'
+
 TEMPLATES = [
 {
    'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -42,7 +51,9 @@ TEMPLATES = [
    },
 },
 ]
+
 WSGI_APPLICATION = 'pins_studio.wsgi.application'
+
 if ENVIRONMENT == 'production':
     DATABASES = {
     'default': dj_database_url.config(
@@ -64,18 +75,28 @@ else:
 }
 
 AUTH_PASSWORD_VALIDATORS = [
-{'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-{'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-{'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-{'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
+
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = config('TIME_ZONE', default='UTC')
+
+TIME_ZONE = config('TIME_ZONE')
+
 USE_I18N = True
+
 USE_TZ = True
+
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static' / 'pins']
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') if ENVIRONMENT == 'local' else '/opt/render/project/src/media'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
