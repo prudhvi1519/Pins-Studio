@@ -37,42 +37,42 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'pins_studio.urls'
 
 TEMPLATES = [
-{
-   'BACKEND': 'django.template.backends.django.DjangoTemplates',
-   'DIRS': [],
-   'APP_DIRS': True,
-   'OPTIONS': {
-       'context_processors': [
-           'django.template.context_processors.debug',
-           'django.template.context_processors.request',
-           'django.contrib.auth.context_processors.auth',
-           'django.contrib.messages.context_processors.messages',
-       ],
-   },
-},
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
 ]
 
 WSGI_APPLICATION = 'pins_studio.wsgi.application'
 
 if ENVIRONMENT == 'production':
     DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL'),
+            conn_max_age=600,
+            ssl_require=True
         )
     }
 else:
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DB_NAME', default='pins_studio_db'),
-        'USER': config('DB_USER', default='root'),
-        'PASSWORD': config('DB_PASSWORD', default=''),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default=3306, cast=int),
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': config('DB_NAME', default='pins_studio_db'),
+            'USER': config('DB_USER', default='root'),
+            'PASSWORD': config('DB_PASSWORD', default=''),
+            'HOST': config('DB_HOST', default='localhost'),
+            'PORT': config('DB_PORT', default=3306, cast=int),
+        }
     }
-}
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -91,7 +91,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static' / 'pins']
+STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static']
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
