@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.views import redirect_to_login
@@ -13,8 +13,9 @@ from django.template.loader import render_to_string
 
 def home(request):
     query = request.GET.get('q', '')
-    pins = Pin.objects.filter(title__icontains=query).select_related('user').prefetch_related('comments', 'likes') if query else Pin.objects.all().select_related('user').prefetch_related('comments', 'likes').order_by('-created_at')
-    paginator = Paginator(pins, 9)
+    # Shuffle pins with or without search query
+    pins = Pin.objects.filter(title__icontains=query).select_related('user').prefetch_related('comments', 'likes').order_by('?') if query else Pin.objects.all().select_related('user').prefetch_related('comments', 'likes').order_by('?')
+    paginator = Paginator(pins, 9)  # 9 pins per page
     pins_page = paginator.page(1)
 
     if request.method == 'POST':
@@ -44,8 +45,8 @@ def home(request):
 def load_more_pins(request):
          page = request.GET.get('page', 1)
          query = request.GET.get('q', '')
-         # Optimize query with select_related and prefetch_related
-         pins = Pin.objects.filter(title__icontains=query).select_related('user').prefetch_related('comments', 'likes') if query else Pin.objects.all().select_related('user').prefetch_related('comments', 'likes').order_by('-created_at')
+         # Shuffle pins with or without search query
+         pins = Pin.objects.filter(title__icontains=query).select_related('user').prefetch_related('comments', 'likes').order_by('?') if query else Pin.objects.all().select_related('user').prefetch_related('comments', 'likes').order_by('?')
          paginator = Paginator(pins, 9)  # 9 pins per page
          try:
              pins_page = paginator.page(page)
@@ -171,35 +172,6 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
 
     return render(request, 'pins/change_password.html', {'form': form})
-
-@login_required
-def profile(request):
-    user_pins = Pin.objects.filter(user=request.user)
-    profile, created = Profile.objects.get_or_create(user=request.user)
-
-    if request.method == 'POST':
-        if 'pin_id' in request.POST:
-            try:
-                pin = Pin.objects.get(id=request.POST.get('pin_id'), user=request.user)
-                pin.delete()
-                return redirect('profile')
-            except Pin.DoesNotExist:
-                return redirect('profile')
-        else:
-            profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
-            if profile_form.is_valid():
-                profile_form.save()
-                messages.success(request, 'Profile updated successfully!')
-                return redirect('profile')
-    else:
-        profile_form = ProfileForm(instance=profile)
-
-    return render(request, 'pins/profile.html', {
-        'user_pins': user_pins,
-        'username': request.user.username,
-        'profile_form': profile_form,
-        'profile': profile,
-    })
 
 @login_required
 def delete_comment(request, comment_id):
