@@ -3,16 +3,18 @@ import os
 from decouple import config
 import dj_database_url
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load environment variables
 ENVIRONMENT = config('ENVIRONMENT', default='local')
 
+# Security settings
 SECRET_KEY = config('SECRET_KEY')
-
 DEBUG = config('DEBUG', default=False, cast=bool)
-
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost').split(',')
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -21,6 +23,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pins',
+    'cloudinary_storage',  # For Cloudinary media storage
+    'cloudinary',  # Required for Cloudinary integration
 ]
 
 MIDDLEWARE = [
@@ -54,6 +58,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pins_studio.wsgi.application'
 
+# Database configuration
 if ENVIRONMENT == 'production':
     DATABASES = {
         'default': dj_database_url.config(
@@ -74,6 +79,20 @@ else:
         }
     }
 
+# Cloudinary configuration
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
+
+# Set default file storage based on environment
+if ENVIRONMENT == 'production':
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+else:
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -81,28 +100,40 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# Internationalization
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = config('TIME_ZONE')
-
 USE_I18N = True
-
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static']
-
+STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static' / 'pins']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Media files (Uploaded images)
 MEDIA_URL = '/media/'
+if ENVIRONMENT == 'local':
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    # In production, Cloudinary handles media, so MEDIA_ROOT is not used
+    MEDIA_ROOT = ''  # Avoid local filesystem storage in production
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') if ENVIRONMENT == 'local' else '/opt/render/project/src/pins_studio/media'
-
+# Login URL for redirects
 LOGIN_URL = '/login/'
 
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Unsplash API key
 UNSPLASH_ACCESS_KEY = config('UNSPLASH_ACCESS_KEY')
+
+# Additional security settings for production
+if ENVIRONMENT == 'production':
+    SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
+    SESSION_COOKIE_SECURE = True  # Cookies only sent over HTTPS
+    CSRF_COOKIE_SECURE = True  # CSRF cookies only sent over HTTPS
+    SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS for 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
