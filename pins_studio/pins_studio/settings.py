@@ -23,8 +23,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pins',
-    'cloudinary_storage',  # For Cloudinary media storage
-    'cloudinary',  # Required for Cloudinary integration
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -84,6 +84,8 @@ CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': config('CLOUDINARY_API_KEY'),
     'API_SECRET': config('CLOUDINARY_API_SECRET'),
+    'CLOUDINARY_URL': config('CLOUDINARY_URL'),
+    'UPLOAD_PRESET': config('CLOUDINARY_UPLOAD_PRESET', default='pins_studio_preset'),
 }
 
 # Set default file storage based on environment
@@ -117,8 +119,7 @@ MEDIA_URL = '/media/'
 if ENVIRONMENT == 'local':
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
-    # In production, Cloudinary handles media, so MEDIA_ROOT is not used
-    MEDIA_ROOT = ''  # Avoid local filesystem storage in production
+    MEDIA_ROOT = ''
 
 # Login URL for redirects
 LOGIN_URL = '/login/'
@@ -131,9 +132,9 @@ UNSPLASH_ACCESS_KEY = config('UNSPLASH_ACCESS_KEY')
 
 # Additional security settings for production
 if ENVIRONMENT == 'production':
-    SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
-    SESSION_COOKIE_SECURE = True  # Cookies only sent over HTTPS
-    CSRF_COOKIE_SECURE = True  # CSRF cookies only sent over HTTPS
-    SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS for 1 year
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
