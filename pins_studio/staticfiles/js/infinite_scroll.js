@@ -9,8 +9,13 @@
     function loadMorePins() {
         if (isLoading) return;
         isLoading = true;
-        if (loading) loading.style.display = 'block';
+        if (loading) {
+            loading.style.display = 'block';
+            loading.style.clear = 'both'; // Ensure loading appears below all columns
+        }
         if (preloader) preloader.style.display = 'block';
+
+        console.log(`Loading more pins: page=${page + 1}, query=${query}`);
 
         fetch(`/load-more-pins/?page=${page + 1}&q=${encodeURIComponent(query)}`)
             .then(response => {
@@ -22,10 +27,12 @@
                 if (data.html) {
                     pinsContainer.insertAdjacentHTML('beforeend', data.html);
                     page++;
+                    console.log(`Loaded ${data.html.length} bytes of new pins`);
                 }
                 isLoading = false;
                 if (!data.has_next) {
                     window.removeEventListener('scroll', debouncedHandleScroll);
+                    console.log('No more pins to load');
                 }
             })
             .catch(error => {

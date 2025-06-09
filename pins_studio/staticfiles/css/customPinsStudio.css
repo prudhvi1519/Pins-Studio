@@ -141,28 +141,134 @@ body {
     transform: scale(1.05);
 }
 
+/* Navbar */
+.navbar {
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-left: 20px;
+}
+
+.navbar-nav {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    margin-right: 20px;
+}
+
+.nav-item {
+    margin-left: 15px;
+}
+
+.nav-link {
+    color: #555 !important;
+    font-weight: 650;
+    text-decoration: none;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: #e60023 !important;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: #e60023;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Navbar Toggler */
+.navbar-toggler {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: none;
+}
+
+.navbar-toggler-icon {
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: #333;
+    position: relative;
+}
+
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background: #333;
+    left: 0;
+}
+
+.navbar-toggler-icon::before {
+    top: -8px;
+}
+
+.navbar-toggler-icon::after {
+    top: 8px;
+}
+
+/* Navbar Collapse */
+.navbar-collapse {
+    display: flex;
+    justify-content: flex-end;
+}
+
 /* Ensure pins container has top margin */
 #pins-container {
     margin-top: 20px;
     width: 100%;
     padding: 0;
-    column-count: 5;
-    column-gap: 10px;
-    break-inside: avoid;
+    column-count: 5; /* 5 columns for desktop */
+    column-gap: 10px; /* Space between columns */
+    break-inside: avoid; /* Prevent cards from breaking across columns */
 }
 
 /* Remove row class for Masonry layout */
 .row {
-    display: block;
+    display: block; /* Override flexbox for pins container */
 }
 
 /* Custom column for pins */
 .col-md-4 {
-    display: inline-block;
-    width: 100%;
+    display: inline-block; /* Allow cards to stack in columns */
+    width: 100%; /* Full width within column */
     padding: 5px;
-    margin-bottom: 10px;
-    break-inside: avoid;
+    margin-bottom: 10px; /* Space between cards */
+    break-inside: avoid; /* Ensure entire card stays in one column */
 }
 
 /* Cards */
@@ -362,7 +468,7 @@ body {
 .form-control:focus {
     outline: none;
     border-color: #e60023;
-    box-shadow: 0 0 5px rgba(230, 0, 35, 0.2);
+    box-shadow: 0 0 5px rgba(230, 0, 0.2);
 }
 
 textarea.form-control {
@@ -542,7 +648,7 @@ table td:first-child {
 /* Responsive Design */
 @media (max-width: 767px) {
     #pins-container {
-        column-count: 2;
+        column-count: 2; /* 2 columns for mobile */
         column-gap: 8px;
     }
     .col-md-4 {
