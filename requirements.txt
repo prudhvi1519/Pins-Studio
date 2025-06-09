@@ -7,5 +7,3 @@ gunicorn
 mysqlclient
 Pillow
 requests>=2.0
-cloudinary
-django-cloudinary-storage

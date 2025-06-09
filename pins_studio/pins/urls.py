@@ -13,4 +13,5 @@ urlpatterns = [
     path('change_password/', views.change_password, name='change_password'),
     path('load-more-pins/', views.load_more_pins, name='load_more_pins'),
     path('delete_comment/<int:comment_id>/', views.delete_comment, name='delete_comment'),
+    path('healthz/', views.healthz, name='healthz'),
 ]

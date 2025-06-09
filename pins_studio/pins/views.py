@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Pin, Comment, Profile
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 
@@ -181,3 +181,6 @@ def delete_comment(request, comment_id):
     except Comment.DoesNotExist:
         pass
     return redirect('home')
+
+def healthz(request):
+    return HttpResponse("OK", status=200)
