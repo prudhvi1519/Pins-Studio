@@ -8,14 +8,12 @@ from .models import Pin, Comment, Profile
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
-from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 
 def home(request):
     query = request.GET.get('q', '')
-    # Shuffle pins with or without search query
     pins = Pin.objects.filter(title__icontains=query).select_related('user').prefetch_related('comments', 'likes').order_by('?') if query else Pin.objects.all().select_related('user').prefetch_related('comments', 'likes').order_by('?')
-    paginator = Paginator(pins, 9)  # 9 pins per page
+    paginator = Paginator(pins, 10)
     pins_page = paginator.page(1)
 
     if request.method == 'POST':
@@ -43,24 +41,23 @@ def home(request):
     })
 
 def load_more_pins(request):
-         page = request.GET.get('page', 1)
-         query = request.GET.get('q', '')
-         # Shuffle pins with or without search query
-         pins = Pin.objects.filter(title__icontains=query).select_related('user').prefetch_related('comments', 'likes').order_by('?') if query else Pin.objects.all().select_related('user').prefetch_related('comments', 'likes').order_by('?')
-         paginator = Paginator(pins, 9)  # 9 pins per page
-         try:
-             pins_page = paginator.page(page)
-         except EmptyPage:
-             return JsonResponse({'has_next': False, 'html': ''})
-         html = render_to_string('pins/pin_card.html', {
-             'pins': pins_page,
-             'user': request.user,
-             'comment_form': CommentForm(),
-         }, request=request)
-         return JsonResponse({
-             'has_next': pins_page.has_next(),
-             'html': html,
-         })
+    page = request.GET.get('page', 1)
+    query = request.GET.get('q', '')
+    pins = Pin.objects.filter(title__icontains=query).select_related('user').prefetch_related('comments', 'likes').order_by('?') if query else Pin.objects.all().select_related('user').prefetch_related('comments', 'likes').order_by('?')
+    paginator = Paginator(pins, 10)
+    try:
+        pins_page = paginator.page(page)
+    except EmptyPage:
+        return JsonResponse({'has_next': False, 'html': ''})
+    html = render_to_string('pins/pin_card.html', {
+        'pins': pins_page,
+        'user': request.user,
+        'comment_form': CommentForm(),
+    }, request=request)
+    return JsonResponse({
+        'has_next': pins_page.has_next(),
+        'html': html,
+    })
 
 def signup_view(request):
     if request.method == 'POST':
