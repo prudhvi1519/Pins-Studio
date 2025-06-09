@@ -1,51 +1,51 @@
 {% for pin in pins %}
-    <div class="col-md-4">
-        <div class="card">
-            {% if pin.image %}
-                <img src="{{ pin.image.url }}" class="card-img-top" loading="lazy" alt="{{ pin.title }}">
-            {% elif pin.image_url %}
-                <img src="{{ pin.image_url }}" class="card-img-top" loading="lazy" alt="{{ pin.title }}">
-            {% else %}
-                <div class="card-img-top bg-secondary text-white text-center" style="height: 200px; line-height: 200px;">No Image</div>
-            {% endif %}
-            <div class="card-body">
-                <h5 class="card-title">{{ pin.title }}</h5>
-                {% if pin.image_url and 'Unsplash' in pin.description %}
-                    <p class="card-text"><strong class="highlight-label">Photo by </strong><span class="highlight-username">{{ pin.description|slice:"9:-11" }}</span></p>
-                {% elif pin.image %}
-                    <p class="card-text"><strong class="highlight-label">Posted by: </strong><span class="highlight-username">{{ pin.user.username }}</span></p>
-                {% endif %}
-                {% if pin.description and pin.description != 'None' and not 'Unsplash' in pin.description %}
-                    <p class="card-text">{{ pin.description }}</p>
-                {% endif %}
-                <a href="{% url 'like_pin' pin.id %}" class="btn btn-sm btn-like like-button-effect">
-                    {{ pin.likes.count }} Like{{ pin.likes.count|pluralize }}
-                </a>
-                {% if pin.comments.all %}
-                    <h6 class="comment-heading">Comments:</h6>
-                    {% for comment in pin.comments.all %}
-                        <p class="comment-text"><span class="highlight-username">{{ comment.user.username }}</span>: {{ comment.text }}</p>
-                        {% if user == comment.user %}
-                            <div class="comment-actions">
-                                <a href="{% url 'edit_comment' comment.id %}" class="btn btn-sm btn-outline-primary comment-action">Edit</a>
-                                <a href="{% url 'delete_comment' comment.id %}" class="btn btn-sm btn-outline-danger comment-action">Delete</a>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-                {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'home' %}" class="comment-form">
-                        {% csrf_token %}
-                        <div class="comment-input-wrapper">
-                            {{ comment_form.text }}
-                        </div>
-                        <input type="hidden" name="pin_id" value="{{ pin.id }}">
-                        <button type="submit" class="btn btn-primary">Comment</button>
-                    </form>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-{% empty %}
-    <p>No pins available.</p>
-{% endfor %}
+     <div class="col-md-4">
+         <div class="card">
+             {% if pin.image %}
+             <img src="{{ pin.image.url }}" class="card-img-top" loading="lazy" alt="{{ pin.title }}">
+             {% elif pin.image_url %}
+             <img src="{{ pin.image_url }}" class="card-img-top" loading="lazy" alt="{{ pin.title }}">
+             {% else %}
+             <div class="card-img-top bg-secondary text-white text-center" style="height: 200px; line-height: 200px;">No Image</div>
+             {% endif %}
+             <div class="card-body">
+                 <h5 class="card-title">{{ pin.title }}</h5>
+                 {% if pin.image_url and 'Unsplash' in pin.description %}
+                 <p class="card-text"><strong class="highlight-label">Photo by </strong><span class="highlight-username">{{ pin.description|slice:"9:-11" }}</span></p>
+                 {% elif pin.image %}
+                 <p class="card-text"><strong class="highlight-label">Posted by: </strong><span class="highlight-username">{{ pin.user.username }}</span></p>
+                 {% endif %}
+                 {% if pin.description and pin.description != 'None' and not 'Unsplash' in pin.description %}
+                 <p class="card-text">{{ pin.description }}</p>
+                 {% endif %}
+                 <a href="{% url 'like_pin' pin.id %}" class="btn btn-sm btn-like like-button-effect">
+                     {{ pin.likes.count }} Like{{ pin.likes.count|pluralize }}
+                 </a>
+                 {% if pin.comments.all %}
+                 <h6 class="comment-heading">Comments:</h6>
+                 {% for comment in pin.comments.all %}
+                 <p class="comment-text"><span class="highlight-username">{{ comment.user.username }}</span>: {{ comment.text }}</p>
+                 {% if user == comment.user %}
+                 <div class="comment-actions">
+                     <a href="{% url 'edit_comment' comment.id %}" class="btn btn-sm btn-outline-primary comment-action">Edit</a>
+                     <a href="{% url 'delete_comment' comment.id %}" class="btn btn-sm btn-outline-danger comment-action">Delete</a>
+                 </div>
+                 {% endif %}
+                 {% endfor %}
+                 {% endif %}
+                 {% if user.is_authenticated %}
+                 <form method="post" action="{% url 'home' %}" class="comment-form">
+                     {% csrf_token %}
+                     <div class="comment-input-wrapper">
+                         {{ comment_form.text }}
+                     </div>
+                     <input type="hidden" name="pin_id" value="{{ pin.id }}">
+                     <button type="submit" class="btn btn-primary">Comment</button>
+                 </form>
+                 {% endif %}
+             </div>
+         </div>
+     </div>
+     {% empty %}
+     <p>No pins available.</p>
+     {% endfor %}

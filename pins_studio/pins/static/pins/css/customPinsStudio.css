@@ -15,9 +15,9 @@ body {
 
 /* Container */
 .pins-studio-container {
-    max-width: 100% !important;
+    max-width: 1200px;
     margin: 20px auto;
-    padding: 15px;
+    padding: 30px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
@@ -101,9 +101,9 @@ body {
 .search-input:focus {
     background-color: #fff;
     outline: none;
-    border: 2px solid #999;
-    border-right: none;
-    margin-right: -2px;
+    border: 2px solid #999; /* Darker grey border on focus */
+    border-right: none; /* Prevent border on right side where button connects */
+    margin-right: -2px; /* Adjust for border width to maintain alignment */
 }
 
 /* Search Input Placeholder */
@@ -139,6 +139,11 @@ body {
 .btn-search:hover {
     background: #c7001e;
     transform: scale(1.05);
+}
+
+/* Ensure pins container has top margin */
+#pins-container {
+    margin-top: 20px;
 }
 
 /* Navbar */
@@ -247,27 +252,17 @@ body {
     justify-content: flex-end;
 }
 
-/* Ensure pins container has top margin */
-#pins-container {
-    margin-top: 20px;
-    width: 100%;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columns for desktop */
-    gap: 10px; /* Space between grid items */
-    position: relative;
-}
-
-/* Remove row class for Grid layout */
+/* Grid System */
 .row {
-    display: block; /* Override flexbox for pins container */
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
 }
 
-/* Custom column for pins */
 .col-md-4 {
-    width: 100%; /* Full width within grid cell */
-    padding: 5px;
-    margin-bottom: 0; /* Remove extra margin, handled by grid gap */
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+    padding: 0 15px;
 }
 
 /* Cards */
@@ -276,11 +271,11 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    margin-bottom: 20px;
     transition: transform 0.3s ease;
     width: 100%;
     display: flex;
     flex-direction: column;
-    aspect-ratio: auto;
 }
 
 .card:hover {
@@ -289,11 +284,11 @@ body {
 
 .card-img-top {
     width: 100%;
+    max-width: 100%;
     height: auto;
-    max-height: 250px;
-    object-fit: cover;
     display: block;
-    aspect-ratio: auto;
+    object-fit: contain; 
+    max-height: 300px;
 }
 
 .card-body {
@@ -467,7 +462,7 @@ body {
 .form-control:focus {
     outline: none;
     border-color: #e60023;
-    box-shadow: 0 0 5px rgba(230, 0, 0.2);
+    box-shadow: 0 0 5px rgba(230, 0, 35, 0.2);
 }
 
 textarea.form-control {
@@ -490,14 +485,12 @@ textarea.form-control {
     text-decoration: underline;
     font-style: italic;
 }
-
 .highlight-username {
     color: #151a19 !important;
     font-weight: bold;
     font-style: normal;
     text-decoration: none;
 }
-
 .brand-effect {
     color: #e91e63;
     font-weight: bold;
@@ -506,7 +499,6 @@ textarea.form-control {
     transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
     position: relative;
 }
-
 .brand-effect::after {
     content: '';
     position: absolute;
@@ -517,45 +509,37 @@ textarea.form-control {
     background: linear-gradient(to right, #26a69a, #e91e63);
     transition: width 0.3s ease;
 }
-
 .brand-effect:hover {
     color: #26a69a;
     transform: scale(1.1) rotate(2deg);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-
 .brand-effect:hover::after {
     width: 100%;
 }
-
 .nav-link-effect {
     color: #151a19;
     transition: color 0.3s ease, background-color 0.3s ease;
 }
-
 .nav-link-effect:hover {
     color: #fff;
     border-radius: 5px;
 }
-
 .heading-effect {
     color: #e91e63;
     font-weight: bold;
     display: inline-block;
     transition: transform 0.3s ease, color 0.3s ease;
 }
-
 .heading-effect:hover {
     color: #26a69a;
     transform: rotate(5deg);
 }
-
 .like-button-effect {
     background-color: #e7b3dc;
     color: #6c5858;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
-
 .like-button-effect:hover {
     background-color: #6c5858;
     color: #fff;
@@ -575,8 +559,6 @@ textarea.form-control {
     text-align: center;
     padding: 20px;
     color: #666;
-    clear: both;
-    width: 100%;
 }
 
 /* Table */
@@ -648,15 +630,9 @@ table td:first-child {
 
 /* Responsive Design */
 @media (max-width: 767px) {
-    #pins-container {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
-        gap: 8px;
-    }
     .col-md-4 {
-        padding: 5px;
-    }
-    .card-img-top {
-        max-height: 200px;
+        flex: 0 0 100%;
+        max-width: 100%;
     }
     .table {
         width: 90%;
