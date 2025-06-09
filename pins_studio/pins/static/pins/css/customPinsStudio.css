@@ -252,23 +252,22 @@ body {
     margin-top: 20px;
     width: 100%;
     padding: 0;
-    column-count: 5; /* 5 columns for desktop */
-    column-gap: 10px; /* Space between columns */
-    break-inside: avoid; /* Prevent cards from breaking across columns */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns for desktop */
+    gap: 10px; /* Space between grid items */
+    position: relative;
 }
 
-/* Remove row class for Masonry layout */
+/* Remove row class for Grid layout */
 .row {
     display: block; /* Override flexbox for pins container */
 }
 
 /* Custom column for pins */
 .col-md-4 {
-    display: inline-block; /* Allow cards to stack in columns */
-    width: 100%; /* Full width within column */
+    width: 100%; /* Full width within grid cell */
     padding: 5px;
-    margin-bottom: 10px; /* Space between cards */
-    break-inside: avoid; /* Ensure entire card stays in one column */
+    margin-bottom: 0; /* Remove extra margin, handled by grid gap */
 }
 
 /* Cards */
@@ -576,6 +575,8 @@ textarea.form-control {
     text-align: center;
     padding: 20px;
     color: #666;
+    clear: both;
+    width: 100%;
 }
 
 /* Table */
@@ -648,12 +649,11 @@ table td:first-child {
 /* Responsive Design */
 @media (max-width: 767px) {
     #pins-container {
-        column-count: 2; /* 2 columns for mobile */
-        column-gap: 8px;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
+        gap: 8px;
     }
     .col-md-4 {
         padding: 5px;
-        margin-bottom: 8px;
     }
     .card-img-top {
         max-height: 200px;

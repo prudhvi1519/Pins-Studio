@@ -6,12 +6,37 @@
     const preloader = document.getElementById('preloader');
     const query = new URLSearchParams(window.location.search).get('q') || '';
 
+    // Custom Masonry layout function
+    function applyMasonry() {
+        const pins = Array.from(pinsContainer.children);
+        const columnCount = window.innerWidth <= 767 ? 2 : 5; // 2 columns for mobile, 5 for desktop
+        const columnHeights = Array(columnCount).fill(0);
+        const columnItems = Array(columnCount).fill().map(() => []);
+
+        // Reset grid positions
+        pins.forEach(pin => {
+            pin.style.gridRow = 'auto';
+            pin.style.gridColumn = 'auto';
+        });
+
+        // Distribute pins to shortest column
+        pins.forEach(pin => {
+            const shortestColumn = columnHeights.indexOf(Math.min(...columnHeights));
+            columnItems[shortestColumn].push(pin);
+            columnHeights[shortestColumn] += pin.offsetHeight + 10; // Include gap
+            pin.style.gridColumn = shortestColumn + 1; // 1-based index for CSS Grid
+        });
+
+        // Set container height to tallest column
+        pinsContainer.style.minHeight = `${Math.max(...columnHeights)}px`;
+    }
+
     function loadMorePins() {
         if (isLoading) return;
         isLoading = true;
         if (loading) {
             loading.style.display = 'block';
-            loading.style.clear = 'both'; // Ensure loading appears below all columns
+            loading.style.clear = 'both';
         }
         if (preloader) preloader.style.display = 'block';
 
@@ -27,6 +52,7 @@
                 if (data.html) {
                     pinsContainer.insertAdjacentHTML('beforeend', data.html);
                     page++;
+                    applyMasonry(); // Reapply Masonry layout after adding new pins
                     console.log(`Loaded ${data.html.length} bytes of new pins`);
                 }
                 isLoading = false;
@@ -61,6 +87,9 @@
         }
     };
 
+    // Apply Masonry on initial load and window resize
+    window.addEventListener('load', applyMasonry);
+    window.addEventListener('resize', debounce(applyMasonry, 200));
     const debouncedHandleScroll = debounce(handleScroll, 200);
     window.addEventListener('scroll', debouncedHandleScroll);
 })();

@@ -23,7 +23,7 @@
 <div class="row" id="pins-container">
     {% include 'pins/pin_card.html' with pins=pins %}
 </div>
-<div id="loading" style="display: none; text-align: center; padding: 20px;">
+<div id="loading" style="display: none; text-align: center; padding: 20px; clear: both; width: 100%;">
     Loading more pins...
 </div>
 <script src="{% static 'pins/js/infinite_scroll.js' %}"></script>
