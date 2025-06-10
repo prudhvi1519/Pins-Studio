@@ -9,63 +9,85 @@ A social media platform for sharing and discovering creative pins, built with Dj
 
 - **Django**: Python web framework for backend logic and authentication.
 - **Bootstrap 5.3.3**: For responsive UI design and components.
-- **HTML/CSS/JavaScript**: Custom frontend styling and interactivity.
+- **HTML/CSS/JavaScript**: Custom frontend styling (`customPinsStudio.css`) and interactivity (`infinite_scroll.js`).
+- **Masonry.js & ImagesLoaded**: For grid layout and infinite scrolling of pins.
 - **SQLite**: Default database for development (configurable for PostgreSQL/MySQL).
-- **Django Static Files**: Custom CSS (`customPinsStudio.css`) for styling.
+- **Django Static Files**: Custom CSS, JavaScript, and favicon for frontend assets.
+- **Unsplash API**: Fetches 150 pins via a custom management command (`fetch_unsplash_pins.py`).
 
 ---
 
 ## 🎮 Features
 
-- **Pin Upload**: Upload images with titles and descriptions via a form.
-- **Search Pins**: Keyword-based search to discover pins.
-- **Like & Comment**: Interact with pins through likes and comments.
-- **User Profiles**: View/edit profiles and change passwords.
+- **Pin Upload**: Upload images with titles and descriptions via `PinForm`.
+- **Search Pins**: Keyword-based search to filter pins by title.
+- **Like & Comment**: Interact with pins through like buttons and comment forms.
+- **User Profiles**: View/edit profile details (bio, picture) and delete uploaded pins.
+- **Authentication**: Secure signup, login, logout, and password change using Django’s auth system.
 - **Responsive Design**: Mobile-friendly layout with a hamburger menu for navigation (<991px).
-- **Authentication**: Secure signup, login, and logout using Django’s auth system.
-- **Dynamic Navbar**: Conditional links for authenticated users (e.g., Profile, Logout) or guests (e.g., Sign Up, Login).
+- **Dynamic Navbar**:
+   - Conditional links: Shows "Profile" and "Logout" for authenticated users, "Sign Up" and "Login" for guests.
+   - Mobile toggler: Pressing effect on click, aligned to the right edge, hidden on login/signup pages in mobile view.
+   - Brand animation: Dynamic scale and rotation on hover and click for the "Pins Studio" logo.
+- **Infinite Scrolling**: Loads more pins dynamically using `infinite_scroll.js` with Masonry layout.
+- **Admin Panel**: Configurable via `admin.py` with a superuser creation command (`create_superuser.py`).
 
 ---
 
 ## 💻 Installation
 
-1. Clone the repository:  
+1. **Clone the repository**:  
    ```bash
    git clone https://github.com/prudhvi1519/pins-studio.git
    ```
 
-2. Navigate to the project directory:
+2. **Navigate to the project directory**:
    ```bash
    cd pins-studio
    ```
 
-3. Create and activate a virtual environment:
+3. **Create and activate a virtual environment**:
    ```bahs
    python -m venv venv
    source venv/bin/activate  # Linux/Mac
    venv\Scripts\activate     # Windows
    ```
 
-4. Install dependencies:
+4. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
-   >  If requirements.txt is unavailable, install Django:  
-         ```bash
-         pip install django
-         ```
+   >  If `requirements.txt` is unavailable, install core dependencies:  
+      >  ```bash
+        pip install django python-decouple
+        ```
+5. **Set up environment variables**: Create a `.env` file in the `pins-studio` directory with:
+   ```bash
+   UNSPLASH_ACCESS_KEY=your_unsplash_key
+   DATABASE_URL=your_database_url
+   ```
 
-5. Run migrations to set up the database:
+6. **Run migrations** to set up the database:
    ```bash
    python manage.py migrate
    ```
 
-6. Run the development server:
+7. **Create a superuser** (optional, for admin access):
+   ```bash
+   python manage.py create_superuser
+   ```
+
+8. **Fetch Unsplash pins** (optional, to populate initial data):
+   ```bash
+   python manage.py fetch_unsplash_pins
+   ```
+
+9. **Run the development server**:
    ```bash
    python manage.py runserver
    ```
 
-7. Open your browser and visit:
+10. **Access the application**: Open your browser and visit:  
    ```bash
    http://127.0.0.1:8000/
    ```
@@ -75,46 +97,45 @@ A social media platform for sharing and discovering creative pins, built with Dj
 
 ## 📂 Project Structure
       pins_studio/  
-      ├── .env                              # Environment variables (UNSPLASH_ACCESS_KEY, DATABASE_URL)  
-      ├── manage.py                         # Django management script  
-      ├── pins/                             # Main app directory  
-      │   ├── admin.py                      # Admin panel configurations  
-      │   ├── apps.py                       # App configuration  
-      │   ├── forms.py                      # Forms (SignUpForm, PinForm, CommentForm, ProfileForm)  
-      │   ├── models.py                     # Models (Pin, Pin_likes, Comment, Profile)  
-      │   ├── tests.py                      # Unit tests  
-      │   ├── urls.py                       # App-level URL routing  
-      │   ├── views.py                      # Views (home, load_more_pins, like_pin, etc.)  
-      │   ├── management/                   # Custom management commands  
+      ├── .env                                # Environment variables (UNSPLASH_ACCESS_KEY, DATABASE_URL)  
+      ├── manage.py                           # Django management script  
+      ├── pins/                               # Main app directory  
+      │   ├── admin.py                        # Admin panel configurations  
+      │   ├── apps.py                         # App configuration  
+      │   ├── forms.py                        # Forms (SignUpForm, PinForm, CommentForm, ProfileForm)  
+      │   ├── models.py                       # Models (Pin, Pin_likes, Comment, Profile)  
+      │   ├── tests.py                        # Unit tests  
+      │   ├── urls.py                         # App-level URL routing  
+      │   ├── views.py                        # Views (home, load_more_pins, like_pin, etc.)  
+      │   ├── management/                     # Custom management commands  
       │   │   └── commands/  
-      │   │       ├── create_superuser.py   # Command to create superuser  
-      │   │       ├── fetch_unsplash_pins.py # Command to fetch 150 Unsplash pins  
-      │   ├── static/pins/                  # Static files  
+      │   │       ├── create_superuser.py     # Command to create superuser  
+      │   │       ├── fetch_unsplash_pins.py  # Command to fetch 150 Unsplash pins  
+      │   ├── static/pins/                    # Static files  
       │   │   ├── css/  
-      │   │   │   └── customPinsStudio.css  # Custom CSS (navbar, pins, buttons)  
+      │   │   │   └── customPinsStudio.css    # Custom CSS (navbar, pins, buttons)  
       │   │   ├── js/  
-      │   │   │   ├── infinite_scroll.js    # Infinite scrolling with Masonry  
+      │   │   │   ├── infinite_scroll.js      # Infinite scrolling with Masonry  
       │   │   │   └── bootstrap.bundle.min.js  
-      │   │   └── favicon.ico               # Favicon  
-      │   ├── templates/pins/               # HTML templates  
-      │   │   ├── base.html                 # Base template with navbar  
-      │   │   ├── home.html                 # Home page with pins and search  
-      │   │   ├── pin_card.html             # Pin card component  
-      │   │   ├── login.html                # Login page  
-      │   │   ├── signup.html               # Signup page  
-      │   │   ├── profile.html              # User profile page  
-      │   │   ├── change_password.html      # Password change page  
-      │   │   ├── edit_comment.html         # Edit comment page  
-      │   │   ├── upload_pin.html           # Pin upload page  
-      ├── pins_studio/                      # Project settings  
-      │   ├── asgi.py                       # ASGI configuration  
-      │   ├── settings.py                   # Django settings  
-      │   ├── urls.py                       # Project-level URL routing  
-      │   ├── wsgi.py                       # WSGI configuration  
-      ├── media/pins/                       # Uploaded pin images  
-      ├── requirements.txt                  # Python dependencies  
-      ├── .gitignore                        # Git ignore file  
-      └── README.md                         # Project documentation  
+      │   │   └── favicon.ico                 # Favicon  
+      │   ├── templates/pins/                 # HTML templates  
+      │   │   ├── base.html                   # Base template with navbar  
+      │   │   ├── home.html                   # Home page with pins and search  
+      │   │   ├── pin_card.html               # Pin card component  
+      │   │   ├── login.html                  # Login page  
+      │   │   ├── signup.html                 # Signup page  
+      │   │   ├── profile.html                # User profile page  
+      │   │   ├── change_password.html        # Password change page  
+      │   │   ├── edit_comment.html           # Edit comment page  
+      │   │   ├── upload_pin.html             # Pin upload page  
+      ├── pins_studio/                        # Project settings  
+      │   ├── asgi.py                         # ASGI configuration  
+      │   ├── settings.py                     # Django settings  
+      │   ├── urls.py                         # Project-level URL routing  
+      │   ├── wsgi.py                         # WSGI configuration  
+      ├── requirements.txt                    # Python dependencies  
+      ├── .gitignore                          # Git ignore file  
+      └── README.md                           # Project documentation  
 
 ---
 
