@@ -32,37 +32,45 @@ A social media platform for sharing and discovering creative pins, built with Dj
 1. Clone the repository:  
    ```bash
    git clone https://github.com/your-username/pins-studio.git
+   ```
 
+2. Navigate to the project directory:
+   ```bash
+   cd pins-studio
+   ```
 
-Navigate to the project directory:  
-cd pins-studio
+3. Create and activate a virtual environment:
+   ```bahs
+   python -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   venv\Scripts\activate     # Windows
+   ```
 
+4. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   If requirements.txt is unavailable, install Django:
+   ```bash
+   pip install django
+   ```
 
-Create and activate a virtual environment:  
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\Scripts\activate     # Windows
+5. Run migrations to set up the database:
+   ```bash
+   python manage.py migrate
+   ```
 
+6. Run the development server:
+   ```bash
+   python manage.py runserver
+   ```
 
-Install dependencies:  
-pip install -r requirements.txt
+7. Open your browser and visit:
+   ```bash
+   http://127.0.0.1:8000/
+   ```
 
-
-If requirements.txt is unavailable, install Django: pip install django
-
-
-Run migrations to set up the database:  
-python manage.py migrate
-
-
-Run the development server:  
-python manage.py runserver
-
-
-Open your browser and visit:  
-http://127.0.0.1:8000/
-
-
+---
 
 
 📂 Project Structure
