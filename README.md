@@ -187,22 +187,30 @@ Mobile Navigation: On screens <991px, click the hamburger menu to access navigat
 Fork the repository.
 
 Clone your fork:  
+```bash
 git clone https://github.com/your-username/pins-studio.git
+```
 
 
 Create a new branch:  
+```bash
 git checkout -b feature-name
+```
 
 
 Make changes and commit:  
+```bash
 git commit -m "Add new feature"
+```
 
 
 Push to your branch:  
+```bash
 git push origin feature-name
+```
 
 
-Create a pull request on GitHub.
+Create a `pull request` on GitHub.
 
 ---
 
