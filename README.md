@@ -11,7 +11,7 @@ A social media platform for sharing and discovering creative pins, built with Dj
 - **Bootstrap 5.3.3**: For responsive UI design and components.
 - **HTML/CSS/JavaScript**: Custom frontend styling (`customPinsStudio.css`) and interactivity (`infinite_scroll.js`).
 - **Masonry.js & ImagesLoaded**: For grid layout and infinite scrolling of pins.
-- **SQLite**: Default database for development (configurable for PostgreSQL/MySQL).
+- **SQLite**: Default database for development (configurable for `PostgreSQL/MySQL`).
 - **Django Static Files**: Custom CSS, JavaScript, and favicon for frontend assets.
 - **Unsplash API**: Fetches 150 pins via a custom management command (`fetch_unsplash_pins.py`).
 
@@ -142,10 +142,10 @@ A social media platform for sharing and discovering creative pins, built with Dj
 ## 🤖 How It Works
 ### Frontend:  
 
-- **Templates**: Built with Bootstrap 5.3.3 and extended via base.html for consistent layout (navbar, footer).  
+- **Templates**: Built with Bootstrap 5.3.3 and extended via `base.html` for consistent layout (navbar, footer).  
 - **Navbar**: Includes a responsive toggler for mobile screens (<991px) with a pressing effect, right-aligned, and hidden on login/signup pages. The brand ("Pins Studio") has dynamic hover and click animations.  
-- **Infinite Scrolling**: Uses infinite_scroll.js with Masonry.js for a dynamic pin grid that loads more pins on scroll.  
-- **Styling**: Custom styles in customPinsStudio.css for buttons, cards, and navbar effects (e.g., gradient buttons, hover animations).  
+- **Infinite Scrolling**: Uses `infinite_scroll.js` with Masonry.js for a dynamic pin grid that loads more pins on scroll.  
+- **Styling**: Custom styles in `customPinsStudio.css` for buttons, cards, and navbar effects (e.g., gradient buttons, hover animations).  
 
 #### Example navbar HTML (base.html):  
 ```bash
@@ -193,11 +193,11 @@ Styles the navbar toggler for mobile screens:
 
 ### Backend:  
 
-- **Models**: Pin, Pin_likes, Comment, and Profile for storing pin data, likes, comments, and user profiles.  
+- **Models**: `Pin`, `Pin_likes`, `Comment`, and `Profile` for storing pin data, likes, comments, and user profiles.  
 - **Views**: Handle routes for home, profile, login, signup, pin upload, liking, and commenting.  
-- **Forms**: SignUpForm, PinForm, CommentForm, and ProfileForm for secure data input.  
-- **URLs**: Defined in pins/urls.py for app-specific routes (e.g., /, /profile/, /like/<pin_id>/).  
-- **Database**: SQLite for development, with PostgreSQL/MySQL support via DATABASE_URL.  
+- **Forms**: `SignUpForm`, `PinForm`, `CommentForm`, and `ProfileForm` for secure data input.  
+- **URLs**: Defined in `pins/urls.py` for app-specific routes (e.g., `/`, `/profile/`, `/like/<pin_id>/`).  
+- **Database**: SQLite for development, with PostgreSQL/MySQL support via `DATABASE_URL`.  
 
 
 #### Example View (views.py):
@@ -224,16 +224,16 @@ def home(request):
 
 #### Database:  
 - SQLite stores pins, comments, likes, and user profiles.  
-- Custom commands (create_superuser.py, fetch_unsplash_pins.py) populate initial data.  
+- Custom commands (`create_superuser.py`, `fetch_unsplash_pins.py`) populate initial data.  
 
 #### Form Handling  
 - Secure POST requests with CSRF tokens for uploads, comments, and profile updates.  
-- Image uploads are validated (5MB limit, image-only) via PinForm.  
+- Image uploads are validated (5MB limit, image-only) via `PinForm`.  
 
 ---
 
 ## 🚀 Usage
-- **Home Page**: View all pins at http://127.0.0.1:8000/.   
+- **Home Page**: View all pins at `http://127.0.0.1:8000/`.   
 - **Upload Pin**: Authenticated users can upload pins at `/upload_pin/`.  
 - **Search Pins**: Use the search bar to find pins by keywords.  
 - **Profile**: Access `/profile/` to view/edit user details or /change_password/ to update passwords.  
@@ -268,3 +268,8 @@ def home(request):
 
 ## 📜 License  
 This project is open-source and available under the MIT License.
+
+---
+
+## 📬 Contact
+For issues or suggestions, contact @prudhvi1519 or open an issue on GitHub.
