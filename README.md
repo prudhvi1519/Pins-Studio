@@ -154,6 +154,7 @@ Example navbar HTML (base.html):
 
 Custom CSS:  
 Styles the navbar toggler for mobile screens:  
+```bash
 @media (max-width: 991px) {  
     .navbar-toggler {  
         display: block;  
@@ -180,7 +181,7 @@ Database: SQLite for development, with PostgreSQL/MySQL support via DATABASE_URL
 
 
 Example View (views.py):
-
+```bash
 from django.shortcuts import render, redirect  
 from .models import Pin  
 from .forms import PinForm, CommentForm  
@@ -197,7 +198,7 @@ def home(request):
             comment.save()  
             return redirect('home')  
     return render(request, 'pins/home.html', {'pins': pins, 'comment_form': CommentForm()})  
-
+```
 
 
 
