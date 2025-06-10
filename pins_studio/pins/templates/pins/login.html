@@ -1,23 +1,27 @@
 {% extends 'pins/base.html' %}
-
+{% load static %}
 {% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    <table class="table borderless">
-      <tr>
-        <td><label for="{{ form.username.id_for_label }}">Username:</label></td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td><label for="{{ form.password.id_for_label }}">Password:</label></td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-    <button type="submit" class="btn btn-primary">Login</button>
-  </form>
-
-  <div>
-    Don't have an account? <a href="{% url 'signup' %}">Sign Up here</a>
-  </div>
+<div class="card">
+    <h2 class="heading-effect">Login</h2>
+    <form method="post" class="profile-form">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <ul class="errorlist">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-gradient">Login</button>
+    </form>
+    <div class="form-group text-center">
+        <p>Don't have an account? <a href="{% url 'signup' %}" class="link-styled">Sign Up here</a></p>
+    </div>
+</div>
 {% endblock %}

@@ -1,9 +1,24 @@
 {% extends 'pins/base.html' %}
+{% load static %}
 {% block content %}
-<h2>Upload a Pin</h2>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Upload</button>
-</form>
+<div class="card">
+    <h2 class="heading-effect">Upload a Pin</h2>
+    <form method="post" enctype="multipart/form-data" class="profile-form">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <ul class="errorlist">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-gradient">Upload Pin</button>
+    </form>
+</div>
 {% endblock %}

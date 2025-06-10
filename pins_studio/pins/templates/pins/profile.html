@@ -1,50 +1,65 @@
 {% extends 'pins/base.html' %}
+{% load static %}
 {% block content %}
-<div>
-    <h1>Welcome, {{ user.username }}🫣</h1>
-
+<div class="card">
+    <h1 class="heading-effect">Welcome, {{ user.username }}! 🫣</h1>
     <!-- Profile Picture and Bio -->
-    <div>
-        <div class="card-body">
-            <h3>Your Profile</h3>
+    <div class="profile-section">
+        <div class="profile-pic-container">
             {% if profile.profile_picture %}
-                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" style="max-width: 150px; border-radius: 50%;">
+                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+                <form method="POST" action="{% url 'profile' %}" class="delete-profile-pic-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="delete_profile_pic" value="true">
+                    <button type="submit" class="btn btn-danger-gradient btn-sm">Delete Profile Picture</button>
+                </form>
+            {% else %}
+                <img src="https://via.placeholder.com/150" alt="Profile Placeholder" class="profile-picture">
             {% endif %}
-            <p><strong>Bio:</strong> {{ profile.bio|default:"No bio yet." }}</p>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ profile_form.as_p }}
-                <button type="submit" class="btn btn-primary">Update Profile</button>
-            </form>
         </div>
+        <p class="card-text"><strong>Bio:</strong> {{ profile.bio|default:"No bio yet." }}</p>
+        <form method="POST" enctype="multipart/form-data" class="profile-form">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ profile_form.bio.label_tag }}
+                {{ profile_form.bio }}
+            </div>
+            <div class="form-group">
+                {{ profile_form.profile_picture.label_tag }}
+                {{ profile_form.profile_picture }}
+            </div>
+            <button type="submit" class="btn btn-gradient">Update Profile</button>
+        </form>
     </div>
+</div>
 
-    <h2>Your Uploaded Pins</h2>
-    <div class="row">
+<h2 class="heading-effect">Your Uploaded Pins</h2>
+{% if user_pins %}
+    <div class="pins-container" id="pins-container">
         {% for pin in user_pins %}
-        <div class="col-md-4">
-            <div class="card">
+            <div class="pin-item">
                 {% if pin.image %}
-                <img src="{{ pin.image.url }}" class="card-img-top" alt="{{ pin.title }}" style="height: 200px; object-fit: cover;">
+                    <img src="{{ pin.image.url }}" class="pin-img" alt="{{ pin.title }}">
                 {% elif pin.image_url %}
-                <img src="{{ pin.image_url }}" class="card-img-top" alt="{{ pin.title }}" style="height: 200px; object-fit: cover;">
+                    <img src="{{ pin.image_url }}" class="pin-img" alt="{{ pin.title }}">
                 {% else %}
-                <div class="card-img-top bg-secondary text-white text-center" style="height: 200px; line-height: 200px;">No Image</div>
+                    <div class="pin-placeholder">No Image</div>
                 {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ pin.title }}</h5>
-                    <p class="card-text">{{ pin.created_at|date:"F j, Y" }}</p>
+                <div class="pin-body">
+                    <h3 class="pin-title">{{ pin.title }}</h3>
+                    <p class="pin-date">{{ pin.created_at|date:"F j, Y" }}</p>
                     <form method="POST" action="{% url 'profile' %}">
                         {% csrf_token %}
                         <input type="hidden" name="pin_id" value="{{ pin.id }}">
-                        <button type="submit" class="btn btn-danger">Delete Pin</button>
+                        <button type="submit" class="btn btn-danger-gradient">Delete Pin</button>
                     </form>
                 </div>
             </div>
-        </div>
-        {% empty %}
-        <p class="alert-info">You haven't uploaded any pins yet.</p>
         {% endfor %}
     </div>
-</div>
+{% else %}
+    <p class="alert-info">You haven't uploaded any pins yet.</p>
+{% endif %}
+
+<script src="{% static 'pins/js/infinite_scroll.js' %}"></script>
 {% endblock %}

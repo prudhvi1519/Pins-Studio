@@ -136,7 +136,13 @@ def profile(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
-        if 'pin_id' in request.POST:
+        if 'delete_profile_pic' in request.POST:
+            if profile.profile_picture:
+                profile.profile_picture.delete()
+                profile.save()
+                messages.success(request, 'Profile picture deleted successfully!')
+                return redirect('profile')
+        elif 'pin_id' in request.POST:
             try:
                 pin = Pin.objects.get(id=request.POST.get('pin_id'), user=request.user)
                 pin.delete()
