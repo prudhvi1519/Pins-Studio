@@ -23,20 +23,22 @@ body {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Heading */
-h1 {
-    text-align: center; /* Center the heading */
-    margin-bottom: 20px;
-}
-
 /* Header Controls */
 .header-controls {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center horizontally */
+    flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 20px;
-    padding: 10px; /* Padding inside header */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+/* Heading */
+h1 {
+    margin-left: 2rem; /* Shift heading ~16px toward center */
+    text-align: left; /* Ensure text remains left-aligned */
+    padding: 10px;
 }
 
 /* Upload Button */
@@ -51,6 +53,7 @@ h1 {
     transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     line-height: 1.5;
+    margin-left: 3rem;
 }
 
 .btn-upload:hover {
@@ -63,9 +66,9 @@ h1 {
 .search-form {
     display: flex;
     align-items: center;
+    flex-grow: 1;
     max-width: 600px;
-    width: 100%;
-    margin: 0 auto; /* Center the search form */
+    margin-right: 1rem;
 }
 
 /* Search Container */
@@ -269,7 +272,6 @@ h1 {
     column-gap: 12px;
     margin: 0 auto;
     width: 100%;
-    padding: 10px; /* Ensure pins have some spacing */
 }
 
 .pin-item {
@@ -624,21 +626,20 @@ table td:first-child {
     .pins-container {
         column-count: 2; /* Enforce minimum 2 columns */
         column-width: 130px; /* Fits mobile (2 × 130px + 12px gap = 272px) */
-        padding: 10px;
     }
     .pins-studio-container {
         padding: 0;
     }
     .header-controls {
         flex-direction: column;
-        align-items: center; /* Center on mobile */
+        align-items: stretch;
         gap: 10px;
         padding: 10px;
     }
     .search-form {
         margin-top: 0;
         max-width: 100%;
-        width: 100%;
+        margin-left: 0.25rem;
     }
     .search-container {
         height: 32px;
@@ -646,6 +647,7 @@ table td:first-child {
     .btn-upload {
         padding: 8px 16px;
         font-size: 0.9rem;
+        margin-left: 0.1rem;
     }
     .btn-search {
         padding: 0 10px;
@@ -657,6 +659,9 @@ table td:first-child {
     }
     .pin-item {
         max-width: 130px;
+    }
+    h1 {
+        margin-left: 1rem; 
     }
 }
 
