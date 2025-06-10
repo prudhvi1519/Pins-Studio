@@ -172,59 +172,6 @@ Like/Comment: Interact with pins via like buttons and comment forms.
 Mobile Navigation: On screens <991px, click the hamburger menu to access navigation links.
 
 
-🌐 Deployment
-
-Set Up a Production Server:
-
-Use a WSGI server like Gunicorn:pip install gunicorn
-gunicorn pins_studio.wsgi:application --bind 0.0.0.0:8000
-
-
-
-
-Configure Static Files:
-
-Run python manage.py collectstatic to gather static files.
-Update settings.py:STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-
-
-
-Use a Web Server:
-
-Configure Nginx or Apache to serve static files and proxy requests to Gunicorn.
-Example Nginx config:server {
-    listen 80;
-    server_name your-domain.com;
-    location /static/ {
-        alias /path/to/pins-studio/staticfiles/;
-    }
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-    }
-}
-
-
-
-
-Database: Use PostgreSQL/MySQL for production. Update settings.py:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pins_studio',
-        'USER': 'your_user',
-        'PASSWORD': 'your_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-
-Environment Variables:
-
-Store sensitive data (e.g., SECRET_KEY) in a .env file using python-dotenv.
-
-
 
 
 👥 Contributing
