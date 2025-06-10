@@ -384,7 +384,7 @@ h3 {
 
 .navbar-toggler:active,
 .navbar-toggler.clicked {
-    transform: scale(0.95);
+    transform: scale(0.3);
 }
 
 .navbar-toggler-icon {
