@@ -58,9 +58,7 @@ A social media platform for sharing and discovering creative pins, built with Dj
    pip install -r requirements.txt
    ```
    >  If `requirements.txt` is unavailable, install core dependencies:  
-      >  ```bash
-        pip install django python-decouple
-        ```
+      >  `pip install django python-decouple`
    
 6. **Set up environment variables**: Create a `.env` file in the `pins-studio` directory with:
    ```bash
