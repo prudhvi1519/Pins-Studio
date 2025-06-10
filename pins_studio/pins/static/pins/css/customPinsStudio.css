@@ -639,7 +639,7 @@ table td:first-child {
     .search-form {
         margin-top: 0;
         max-width: 100%;
-        margin-left: 0.25rem;
+        margin-right: 0.1rem;
     }
     .search-container {
         height: 32px;
