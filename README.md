@@ -73,29 +73,30 @@ A social media platform for sharing and discovering creative pins, built with Dj
 ---
 
 
-📂 Project Structure
-pins-studio/
-├── pins/
-│   ├── static/pins/
-│   │   ├── css/customPinsStudio.css  # Custom styles for the frontend
-│   │   └── favicon.ico               # Favicon for the site
-│   ├── templates/
-│   │   ├── base.html                 # Base template with navbar
-│   │   └── pins/                     # App-specific templates (e.g., home, profile)
-│   ├── migrations/                   # Database migrations
-│   ├── models.py                     # Pin, Comment, Like models
-│   ├── views.py                      # Logic for rendering pages and handling forms
-│   ├── urls.py                       # URL routes for the app
-│   └── apps.py                       # App configuration
-├── pins_studio/
-│   ├── settings.py                   # Django settings (static files, templates)
-│   ├── urls.py                       # Project URL configuration
-│   └── wsgi.py                       # WSGI entry point
-├── manage.py                         # Django management script
-└── requirements.txt                  # Project dependencies
+## 📂 Project Structure
+pins-studio/  
+├── pins/  
+│   ├── static/pins/  
+│   │   ├── css/customPinsStudio.css  # Custom styles for the frontend  
+│   │   └── favicon.ico               # Favicon for the site  
+│   ├── templates/  
+│   │   ├── base.html                 # Base template with navbar  
+│   │   └── pins/                     # App-specific templates (e.g., home, profile)  
+│   ├── migrations/                   # Database migrations  
+│   ├── models.py                     # Pin, Comment, Like models  
+│   ├── views.py                      # Logic for rendering pages and handling forms  
+│   ├── urls.py                       # URL routes for the app  
+│   └── apps.py                       # App configuration  
+├── pins_studio/  
+│   ├── settings.py                   # Django settings (static files, templates)  
+│   ├── urls.py                       # Project URL configuration  
+│   └── wsgi.py                       # WSGI entry point  
+├── manage.py                         # Django management script  
+└── requirements.txt                  # Project dependencies  
 
+---
 
-🤖 How It Works
+## 🤖 How It Works
 
 Frontend: 
 
@@ -168,9 +169,9 @@ Database: SQLite stores pins, comments, likes, and user data.
 
 Form Handling: Secure POST requests with CSRF tokens for uploads and comments.
 
+---
 
-
-🚀 Usage
+## 🚀 Usage
 
 Home Page: View all pins at http://127.0.0.1:8000/.
 Upload Pin: Authenticated users can upload pins via a form (e.g., /upload/).
@@ -179,10 +180,9 @@ Profile: Access /profile/ to view/edit user details or /change_password/ to upda
 Like/Comment: Interact with pins via like buttons and comment forms.
 Mobile Navigation: On screens <991px, click the hamburger menu to access navigation links.
 
+---
 
-
-
-👥 Contributing
+## 👥 Contributing
 
 Fork the repository.
 
@@ -204,7 +204,7 @@ git push origin feature-name
 
 Create a pull request on GitHub.
 
+---
 
-
-📜 License
-This project is open-source and available under the MIT License.```
+## 📜 License
+This project is open-source and available under the MIT License.
