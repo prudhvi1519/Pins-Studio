@@ -121,10 +121,10 @@ A social media platform for sharing and discovering creative pins, built with Dj
 ## 🤖 How It Works
 ### Frontend:  
 
-* Templates: Built with Bootstrap 5.3.3 and extended via base.html for consistent layout (navbar, footer).  
-* Navbar: Includes a responsive toggler for mobile screens (<991px) with a pressing effect, right-aligned, and hidden on login/signup pages. The brand ("Pins Studio") has dynamic hover and click animations.  
-* Infinite Scrolling: Uses infinite_scroll.js with Masonry.js for a dynamic pin grid that loads more pins on scroll.  
-* Styling: Custom styles in customPinsStudio.css for buttons, cards, and navbar effects (e.g., gradient buttons, hover animations).  
+- **Templates**: Built with Bootstrap 5.3.3 and extended via base.html for consistent layout (navbar, footer).  
+- **Navbar**: Includes a responsive toggler for mobile screens (<991px) with a pressing effect, right-aligned, and hidden on login/signup pages. The brand ("Pins Studio") has dynamic hover and click animations.  
+- **Infinite Scrolling**: Uses infinite_scroll.js with Masonry.js for a dynamic pin grid that loads more pins on scroll.  
+- **Styling**: Custom styles in customPinsStudio.css for buttons, cards, and navbar effects (e.g., gradient buttons, hover animations).  
 
 #### Example navbar HTML (base.html):  
 ```bash
@@ -172,11 +172,11 @@ Styles the navbar toggler for mobile screens:
 
 ### Backend:  
 
-Models: Pin, Pin_likes, Comment, and Profile for storing pin data, likes, comments, and user profiles.  
-Views: Handle routes for home, profile, login, signup, pin upload, liking, and commenting.  
-Forms: SignUpForm, PinForm, CommentForm, and ProfileForm for secure data input.  
-URLs: Defined in pins/urls.py for app-specific routes (e.g., /, /profile/, /like/<pin_id>/).  
-Database: SQLite for development, with PostgreSQL/MySQL support via DATABASE_URL.  
+- **Models**: Pin, Pin_likes, Comment, and Profile for storing pin data, likes, comments, and user profiles.  
+- **Views**: Handle routes for home, profile, login, signup, pin upload, liking, and commenting.  
+- **Forms**: SignUpForm, PinForm, CommentForm, and ProfileForm for secure data input.  
+- **URLs**: Defined in pins/urls.py for app-specific routes (e.g., /, /profile/, /like/<pin_id>/).  
+- **Database**: SQLite for development, with PostgreSQL/MySQL support via DATABASE_URL.  
 
 
 #### Example View (views.py):
@@ -201,59 +201,47 @@ def home(request):
 
 
 
-Database  
+#### Database:  
+- SQLite stores pins, comments, likes, and user profiles.  
+- Custom commands (create_superuser.py, fetch_unsplash_pins.py) populate initial data.  
 
-SQLite stores pins, comments, likes, and user profiles.  
-Custom commands (create_superuser.py, fetch_unsplash_pins.py) populate initial data.  
-
-
-
-Form Handling  
-Secure POST requests with CSRF tokens for uploads, comments, and profile updates.  
-Image uploads are validated (5MB limit, image-only) via PinForm.  
+#### Form Handling  
+- Secure POST requests with CSRF tokens for uploads, comments, and profile updates.  
+- Image uploads are validated (5MB limit, image-only) via PinForm.  
 
 ---
 
 ## 🚀 Usage
-
-Home Page: View all pins at http://127.0.0.1:8000/.  
-Upload Pin: Authenticated users can upload pins via a form (e.g., /upload/).  
-Search Pins: Use the search bar to find pins by keywords.  
-Profile: Access /profile/ to view/edit user details or /change_password/ to update passwords.  
-Like/Comment: Interact with pins via like buttons and comment forms.  
-Mobile Navigation: On screens <991px, click the hamburger menu to access navigation links.  
+- **Home Page**: View all pins at http://127.0.0.1:8000/.   
+- **Upload Pin**: Authenticated users can upload pins at `/upload_pin/`.  
+- **Search Pins**: Use the search bar to find pins by keywords.  
+- **Profile**: Access `/profile/` to view/edit user details or /change_password/ to update passwords.  
+- **Like/Comment**: Interact with pins via like buttons and comment forms.  
+- **Mobile Navigation**: On screens <991px, click the hamburger menu to access navigation links.
+- **Password Change**: Update password at `/change_password/`.  
 
 ---
 
 ## 👥 Contributing
 
-Fork the repository.  
-
-Clone your fork:  
-```bash
-git clone https://github.com/your-username/pins-studio.git
-```
-
-
-Create a new branch:  
-```bash
-git checkout -b feature-name
-```
-
-
-Make changes and commit:  
-```bash
-git commit -m "Add new feature"
-```
-
-
-Push to your branch:  
-```bash
-git push origin feature-name
-```
-
-
-Create a `pull request` on GitHub.
+1. Fork the repository.
+2. Clone your fork:
+   ```bash
+   git clone https://github.com/your-username/pins-studio.git
+   ```
+3. Create a new branch:  
+   ```bash
+   git checkout -b feature-name
+   ```
+4. Make changes and commit:  
+   ```bash
+   git commit -m "Add new feature"
+   ```
+5. Push to your branch:  
+   ```bash
+   git push origin feature-name
+   ```
+6. Create a `pull request` on GitHub.
 
 ---
 
