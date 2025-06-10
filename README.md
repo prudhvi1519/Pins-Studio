@@ -51,9 +51,9 @@ A social media platform for sharing and discovering creative pins, built with Dj
    pip install -r requirements.txt
    ```
    >  If requirements.txt is unavailable, install Django:
-      ```bash
-      pip install django
-      ```
+         ```bash
+         pip install django
+         ```
 
 5. Run migrations to set up the database:
    ```bash
