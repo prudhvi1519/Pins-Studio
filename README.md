@@ -1,7 +1,7 @@
 # Pins Studio
 
 A social media platform for sharing and discovering creative pins, built with Django and Bootstrap.  
-**Users can upload images, search for pins, like, comment, and manage their profiles in a responsive, user-friendly interface.**
+**Users** can **upload images, search for pins, like, comment, and manage their profiles in a responsive, user-friendly interface.**
 
 ---
 
@@ -119,15 +119,14 @@ A social media platform for sharing and discovering creative pins, built with Dj
 ---
 
 ## 🤖 How It Works
+### Frontend:  
 
-Frontend:  
+* Templates: Built with Bootstrap 5.3.3 and extended via base.html for consistent layout (navbar, footer).  
+* Navbar: Includes a responsive toggler for mobile screens (<991px) with a pressing effect, right-aligned, and hidden on login/signup pages. The brand ("Pins Studio") has dynamic hover and click animations.  
+* Infinite Scrolling: Uses infinite_scroll.js with Masonry.js for a dynamic pin grid that loads more pins on scroll.  
+* Styling: Custom styles in customPinsStudio.css for buttons, cards, and navbar effects (e.g., gradient buttons, hover animations).  
 
-Templates: Built with Bootstrap 5.3.3 and extended via base.html for consistent layout (navbar, footer).  
-Navbar: Includes a responsive toggler for mobile screens (<991px) with a pressing effect, right-aligned, and hidden on login/signup pages. The brand ("Pins Studio") has dynamic hover and click animations.  
-Infinite Scrolling: Uses infinite_scroll.js with Masonry.js for a dynamic pin grid that loads more pins on scroll.  
-Styling: Custom styles in customPinsStudio.css for buttons, cards, and navbar effects (e.g., gradient buttons, hover animations).  
-
-Example navbar HTML (base.html):  
+#### Example navbar HTML (base.html):  
 ```bash
 <nav class="navbar">  
     <div class="navbar-row">  
@@ -152,7 +151,7 @@ Example navbar HTML (base.html):
 
 
 
-Custom CSS:  
+#### Custom CSS:  
 Styles the navbar toggler for mobile screens:  
 ```bash
 @media (max-width: 991px) {  
@@ -171,7 +170,7 @@ Styles the navbar toggler for mobile screens:
 
 
 
-Backend:  
+### Backend:  
 
 Models: Pin, Pin_likes, Comment, and Profile for storing pin data, likes, comments, and user profiles.  
 Views: Handle routes for home, profile, login, signup, pin upload, liking, and commenting.  
@@ -180,7 +179,7 @@ URLs: Defined in pins/urls.py for app-specific routes (e.g., /, /profile/, /like
 Database: SQLite for development, with PostgreSQL/MySQL support via DATABASE_URL.  
 
 
-Example View (views.py):
+#### Example View (views.py):
 ```bash
 from django.shortcuts import render, redirect  
 from .models import Pin  
