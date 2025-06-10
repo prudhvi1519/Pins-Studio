@@ -31,7 +31,7 @@ A social media platform for sharing and discovering creative pins, built with Dj
 
 1. Clone the repository:  
    ```bash
-   git clone https://github.com/your-username/pins-studio.git
+   git clone https://github.com/prudhvi1519/pins-studio.git
    ```
 
 2. Navigate to the project directory:
@@ -110,40 +110,40 @@ Example navbar HTML (base.html):<nav class="navbar">
         </button>  
         <div class="navbar-collapse" id="navbarNav">  
             <ul class="navbar-nav">  
-                {% if user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'profile' %}">{{ user.username }}</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'signup' %}">Sign Up</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'login' %}">Login</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-</nav>
+                {% if user.is_authenticated %}  
+                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'profile' %}">{{ user.username }}</a></li>  
+                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'logout' %}">Logout</a></li>  
+                {% else %}  
+                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'signup' %}">Sign Up</a></li>  
+                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'login' %}">Login</a></li>  
+                {% endif %}  
+            </ul>  
+        </div>  
+    </div>  
+</nav>  
 
 
 
 
-Custom CSS:
+Custom CSS:  
 
-Styles the navbar toggler for mobile screens:@media (max-width: 991px) {
-    .navbar-toggler {
-        display: block;
-        margin-right: 15px !important;
-        padding: 8px !important;
-    }
-    .navbar-toggler-icon {
-        width: 18px;
-        height: 2px;
-        background: #333 !important;
-    }
-}
-
-
+Styles the navbar toggler for mobile screens:@media (max-width: 991px) {  
+    .navbar-toggler {  
+        display: block;  
+        margin-right: 15px !important;  
+        padding: 8px !important;  
+    }  
+    .navbar-toggler-icon {  
+        width: 18px;  
+        height: 2px;  
+        background: #333 !important;  
+    }  
+}  
 
 
-Backend:
+
+
+Backend:  
 
 Django handles routes (e.g., /, /profile/, /login/) via urls.py.  
 Models (assumed) include Pin, Comment, and Like for storing data.  
