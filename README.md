@@ -74,25 +74,47 @@ A social media platform for sharing and discovering creative pins, built with Dj
 
 
 ## 📂 Project Structure
-pins-studio/  
-├── pins/  
-│   ├── static/pins/  
-│   │   ├── css/customPinsStudio.css  # Custom styles for the frontend  
-│   │   └── favicon.ico               # Favicon for the site  
-│   ├── templates/  
-│   │   ├── base.html                 # Base template with navbar  
-│   │   └── pins/                     # App-specific templates (e.g., home, profile)  
-│   ├── migrations/                   # Database migrations  
-│   ├── models.py                     # Pin, Comment, Like models  
-│   ├── views.py                      # Logic for rendering pages and handling forms  
-│   ├── urls.py                       # URL routes for the app  
-│   └── apps.py                       # App configuration  
-├── pins_studio/  
-│   ├── settings.py                   # Django settings (static files, templates)  
-│   ├── urls.py                       # Project URL configuration  
-│   └── wsgi.py                       # WSGI entry point  
-├── manage.py                         # Django management script  
-└── requirements.txt                  # Project dependencies  
+      pins_studio/  
+      ├── .env                              # Environment variables (UNSPLASH_ACCESS_KEY, DATABASE_URL)  
+      ├── manage.py                         # Django management script  
+      ├── pins/                             # Main app directory  
+      │   ├── admin.py                      # Admin panel configurations  
+      │   ├── apps.py                       # App configuration  
+      │   ├── forms.py                      # Forms (SignUpForm, PinForm, CommentForm, ProfileForm)  
+      │   ├── models.py                     # Models (Pin, Pin_likes, Comment, Profile)  
+      │   ├── tests.py                      # Unit tests  
+      │   ├── urls.py                       # App-level URL routing  
+      │   ├── views.py                      # Views (home, load_more_pins, like_pin, etc.)  
+      │   ├── management/                   # Custom management commands  
+      │   │   └── commands/  
+      │   │       ├── create_superuser.py   # Command to create superuser  
+      │   │       ├── fetch_unsplash_pins.py # Command to fetch 150 Unsplash pins  
+      │   ├── static/pins/                  # Static files  
+      │   │   ├── css/  
+      │   │   │   └── customPinsStudio.css  # Custom CSS (navbar, pins, buttons)  
+      │   │   ├── js/  
+      │   │   │   ├── infinite_scroll.js    # Infinite scrolling with Masonry  
+      │   │   │   └── bootstrap.bundle.min.js  
+      │   │   └── favicon.ico               # Favicon  
+      │   ├── templates/pins/               # HTML templates  
+      │   │   ├── base.html                 # Base template with navbar  
+      │   │   ├── home.html                 # Home page with pins and search  
+      │   │   ├── pin_card.html             # Pin card component  
+      │   │   ├── login.html                # Login page  
+      │   │   ├── signup.html               # Signup page  
+      │   │   ├── profile.html              # User profile page  
+      │   │   ├── change_password.html      # Password change page  
+      │   │   ├── edit_comment.html         # Edit comment page  
+      │   │   ├── upload_pin.html           # Pin upload page  
+      ├── pins_studio/                      # Project settings  
+      │   ├── asgi.py                       # ASGI configuration  
+      │   ├── settings.py                   # Django settings  
+      │   ├── urls.py                       # Project-level URL routing  
+      │   ├── wsgi.py                       # WSGI configuration  
+      ├── media/pins/                       # Uploaded pin images  
+      ├── requirements.txt                  # Python dependencies  
+      ├── .gitignore                        # Git ignore file  
+      └── README.md                         # Project documentation  
 
 ---
 
@@ -100,9 +122,14 @@ pins-studio/
 
 Frontend:  
 
-Uses Bootstrap for responsive layouts and customPinsStudio.css for custom styling (e.g., navbar, cards, buttons).  
-The navbar includes a mobile-friendly toggler for screens <991px.  
-Example navbar HTML (base.html):<nav class="navbar">  
+Templates: Built with Bootstrap 5.3.3 and extended via base.html for consistent layout (navbar, footer).  
+Navbar: Includes a responsive toggler for mobile screens (<991px) with a pressing effect, right-aligned, and hidden on login/signup pages. The brand ("Pins Studio") has dynamic hover and click animations.  
+Infinite Scrolling: Uses infinite_scroll.js with Masonry.js for a dynamic pin grid that loads more pins on scroll.  
+Styling: Custom styles in customPinsStudio.css for buttons, cards, and navbar effects (e.g., gradient buttons, hover animations).  
+
+Example navbar HTML (base.html):  
+```bash
+<nav class="navbar">  
     <div class="navbar-row">  
         <a class="navbar-brand brand-effect" href="{% url 'home' %}">Pins Studio</a>  
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">  
@@ -121,13 +148,13 @@ Example navbar HTML (base.html):<nav class="navbar">
         </div>  
     </div>  
 </nav>  
-
+```
 
 
 
 Custom CSS:  
-
-Styles the navbar toggler for mobile screens:@media (max-width: 991px) {  
+Styles the navbar toggler for mobile screens:  
+@media (max-width: 991px) {  
     .navbar-toggler {  
         display: block;  
         margin-right: 15px !important;  
@@ -139,35 +166,51 @@ Styles the navbar toggler for mobile screens:@media (max-width: 991px) {
         background: #333 !important;  
     }  
 }  
-
+```
 
 
 
 Backend:  
 
-Django handles routes (e.g., /, /profile/, /login/) via urls.py.  
-Models (assumed) include Pin, Comment, and Like for storing data.  
-Example view (assumed in views.py):from django.shortcuts import render, redirect  
+Models: Pin, Pin_likes, Comment, and Profile for storing pin data, likes, comments, and user profiles.  
+Views: Handle routes for home, profile, login, signup, pin upload, liking, and commenting.  
+Forms: SignUpForm, PinForm, CommentForm, and ProfileForm for secure data input.  
+URLs: Defined in pins/urls.py for app-specific routes (e.g., /, /profile/, /like/<pin_id>/).  
+Database: SQLite for development, with PostgreSQL/MySQL support via DATABASE_URL.  
+
+
+Example View (views.py):
+
+from django.shortcuts import render, redirect  
 from .models import Pin  
-from .forms import PinForm  
+from .forms import PinForm, CommentForm  
 
 def home(request):  
-    pins = Pin.objects.all()  
+    query = request.GET.get('q', '')  
+    pins = Pin.objects.filter(title__icontains=query).order_by('?')  
     if request.method == 'POST':  
-        form = PinForm(request.POST, request.FILES)  
+        form = CommentForm(request.POST)  
         if form.is_valid():  
-            form.save()  
+            comment = form.save(commit=False)  
+            comment.user = request.user  
+            comment.pin = Pin.objects.get(id=request.POST.get('pin_id'))  
+            comment.save()  
             return redirect('home')  
-    else:  
-        form = PinForm()  
-    return render(request, 'pins/home.html', {'pins': pins, 'form': form})  
+    return render(request, 'pins/home.html', {'pins': pins, 'comment_form': CommentForm()})  
 
 
 
 
-Database: SQLite stores pins, comments, likes, and user data.  
+Database  
 
-Form Handling: Secure POST requests with CSRF tokens for uploads and comments.  
+SQLite stores pins, comments, likes, and user profiles.  
+Custom commands (create_superuser.py, fetch_unsplash_pins.py) populate initial data.  
+
+
+
+Form Handling  
+Secure POST requests with CSRF tokens for uploads, comments, and profile updates.  
+Image uploads are validated (5MB limit, image-only) via PinForm.  
 
 ---
 
