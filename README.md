@@ -98,18 +98,18 @@ pins-studio/
 
 ## 🤖 How It Works
 
-Frontend: 
+Frontend:  
 
-Uses Bootstrap for responsive layouts and customPinsStudio.css for custom styling (e.g., navbar, cards, buttons).
-The navbar includes a mobile-friendly toggler for screens <991px.
-Example navbar HTML (base.html):<nav class="navbar">
-    <div class="navbar-row">
-        <a class="navbar-brand brand-effect" href="{% url 'home' %}">Pins Studio</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+Uses Bootstrap for responsive layouts and customPinsStudio.css for custom styling (e.g., navbar, cards, buttons).  
+The navbar includes a mobile-friendly toggler for screens <991px.  
+Example navbar HTML (base.html):<nav class="navbar">  
+    <div class="navbar-row">  
+        <a class="navbar-brand brand-effect" href="{% url 'home' %}">Pins Studio</a>  
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">  
+            <span class="navbar-toggler-icon"></span>  
+        </button>  
+        <div class="navbar-collapse" id="navbarNav">  
+            <ul class="navbar-nav">  
                 {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'profile' %}">{{ user.username }}</a></li>
                     <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'logout' %}">Logout</a></li>
@@ -145,29 +145,29 @@ Styles the navbar toggler for mobile screens:@media (max-width: 991px) {
 
 Backend:
 
-Django handles routes (e.g., /, /profile/, /login/) via urls.py.
-Models (assumed) include Pin, Comment, and Like for storing data.
-Example view (assumed in views.py):from django.shortcuts import render, redirect
-from .models import Pin
-from .forms import PinForm
+Django handles routes (e.g., /, /profile/, /login/) via urls.py.  
+Models (assumed) include Pin, Comment, and Like for storing data.  
+Example view (assumed in views.py):from django.shortcuts import render, redirect  
+from .models import Pin  
+from .forms import PinForm  
 
-def home(request):
-    pins = Pin.objects.all()
-    if request.method == 'POST':
-        form = PinForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = PinForm()
-    return render(request, 'pins/home.html', {'pins': pins, 'form': form})
-
-
+def home(request):  
+    pins = Pin.objects.all()  
+    if request.method == 'POST':  
+        form = PinForm(request.POST, request.FILES)  
+        if form.is_valid():  
+            form.save()  
+            return redirect('home')  
+    else:  
+        form = PinForm()  
+    return render(request, 'pins/home.html', {'pins': pins, 'form': form})  
 
 
-Database: SQLite stores pins, comments, likes, and user data.
 
-Form Handling: Secure POST requests with CSRF tokens for uploads and comments.
+
+Database: SQLite stores pins, comments, likes, and user data.  
+
+Form Handling: Secure POST requests with CSRF tokens for uploads and comments.  
 
 ---
 
