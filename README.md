@@ -217,18 +217,18 @@ Image uploads are validated (5MB limit, image-only) via PinForm.
 
 ## 🚀 Usage
 
-Home Page: View all pins at http://127.0.0.1:8000/.
-Upload Pin: Authenticated users can upload pins via a form (e.g., /upload/).
-Search Pins: Use the search bar to find pins by keywords.
-Profile: Access /profile/ to view/edit user details or /change_password/ to update passwords.
-Like/Comment: Interact with pins via like buttons and comment forms.
-Mobile Navigation: On screens <991px, click the hamburger menu to access navigation links.
+Home Page: View all pins at http://127.0.0.1:8000/.  
+Upload Pin: Authenticated users can upload pins via a form (e.g., /upload/).  
+Search Pins: Use the search bar to find pins by keywords.  
+Profile: Access /profile/ to view/edit user details or /change_password/ to update passwords.  
+Like/Comment: Interact with pins via like buttons and comment forms.  
+Mobile Navigation: On screens <991px, click the hamburger menu to access navigation links.  
 
 ---
 
 ## 👥 Contributing
 
-Fork the repository.
+Fork the repository.  
 
 Clone your fork:  
 ```bash
@@ -258,5 +258,5 @@ Create a `pull request` on GitHub.
 
 ---
 
-## 📜 License
+## 📜 License  
 This project is open-source and available under the MIT License.
