@@ -61,39 +61,39 @@ A social media platform for sharing and discovering creative pins, built with Dj
       >  ```bash
         pip install django python-decouple
         ```
-5. **Set up environment variables**: Create a `.env` file in the `pins-studio` directory with:
+   
+6. **Set up environment variables**: Create a `.env` file in the `pins-studio` directory with:
    ```bash
    UNSPLASH_ACCESS_KEY=your_unsplash_key
    DATABASE_URL=your_database_url
    ```
 
-6. **Run migrations** to set up the database:
+7. **Run migrations** to set up the database:
    ```bash
    python manage.py migrate
    ```
 
-7. **Create a superuser** (optional, for admin access):
+8. **Create a superuser** (optional, for admin access):
    ```bash
    python manage.py create_superuser
    ```
 
-8. **Fetch Unsplash pins** (optional, to populate initial data):
+9. **Fetch Unsplash pins** (optional, to populate initial data):
    ```bash
    python manage.py fetch_unsplash_pins
    ```
 
-9. **Run the development server**:
+10. **Run the development server**:
    ```bash
    python manage.py runserver
    ```
 
-10. **Access the application**: Open your browser and visit:  
+11. **Access the application**: Open your browser and visit:  
    ```bash
    http://127.0.0.1:8000/
    ```
 
 ---
-
 
 ## 📂 Project Structure
       pins_studio/  
@@ -139,7 +139,7 @@ A social media platform for sharing and discovering creative pins, built with Dj
 
 ---
 
-## 🤖 How It Works
+## 🤖 How It Works  
 ### Frontend:  
 
 - **Templates**: Built with Bootstrap 5.3.3 and extended via `base.html` for consistent layout (navbar, footer).  
@@ -148,48 +148,52 @@ A social media platform for sharing and discovering creative pins, built with Dj
 - **Styling**: Custom styles in `customPinsStudio.css` for buttons, cards, and navbar effects (e.g., gradient buttons, hover animations).  
 
 #### Example navbar HTML (base.html):  
-```bash
-<nav class="navbar">  
-    <div class="navbar-row">  
-        <a class="navbar-brand brand-effect" href="{% url 'home' %}">Pins Studio</a>  
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">  
-            <span class="navbar-toggler-icon"></span>  
-        </button>  
-        <div class="navbar-collapse" id="navbarNav">  
-            <ul class="navbar-nav">  
-                {% if user.is_authenticated %}  
-                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'profile' %}">{{ user.username }}</a></li>  
-                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'logout' %}">Logout</a></li>  
-                {% else %}  
-                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'signup' %}">Sign Up</a></li>  
-                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'login' %}">Login</a></li>  
-                {% endif %}  
-            </ul>  
-        </div>  
-    </div>  
-</nav>  
+```html
+<nav class="navbar">
+    <div class="navbar-row">
+        <a class="navbar-brand brand-effect" href="{% url 'home' %}">Pins Studio</a>
+        {% if request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'signup' %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        {% endif %}
+        <div class="navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'profile' %}">{{ user.username }}</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'signup' %}">Sign Up</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-effect" href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
 ```
 
-
-
-#### Custom CSS:  
-Styles the navbar toggler for mobile screens:  
-```bash
-@media (max-width: 991px) {  
-    .navbar-toggler {  
-        display: block;  
-        margin-right: 15px !important;  
-        padding: 8px !important;  
-    }  
-    .navbar-toggler-icon {  
-        width: 18px;  
-        height: 2px;  
-        background: #333 !important;  
-    }  
-}  
+#### Example CSS (customPinsStudio.css)::   
+```css
+.navbar-toggler {
+    border: none;
+    background: transparent !important;
+    cursor: pointer;
+    padding: 8px !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.navbar-toggler:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.navbar-toggler.pressed {
+    transform: scale(0.9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.navbar-brand.clicked {
+    transform: scale(0.95) rotate(5deg);
+    color: #26a69a;
+}
 ```
-
-
 
 ### Backend:  
 
@@ -201,7 +205,7 @@ Styles the navbar toggler for mobile screens:
 
 
 #### Example View (views.py):
-```bash
+```python
 from django.shortcuts import render, redirect  
 from .models import Pin  
 from .forms import PinForm, CommentForm  
@@ -219,8 +223,6 @@ def home(request):
             return redirect('home')  
     return render(request, 'pins/home.html', {'pins': pins, 'comment_form': CommentForm()})  
 ```
-
-
 
 #### Database:  
 - SQLite stores pins, comments, likes, and user profiles.  
