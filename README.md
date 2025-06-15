@@ -12,6 +12,8 @@ Welcome to **Pins Studio**! This project is designed to be a comprehensive platf
 - [Project Structure](#-project-structure)
 - [Installation](#-installation)
 - [How It Works](#-how-it-works)
+    - [FrontEnd](#frontend)
+    - [BackEnd](#backend)
 - [Contributing](#-contributing)
 - [License](#-license)
 - [Contact](#-contact)
