@@ -7,14 +7,14 @@ Welcome to **Pins Studio**! This project is designed to be a comprehensive platf
 ## Table of Contents
 
 - [Project Overview](#project-overview)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [How It Works](#how-it-works)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+- [Features](#-features)
+- [Technologies Used](#%EF%B8%8F-technologies-used)
+- [Project Structure](#-project-structure)
+- [Installation](#-installation)
+- [How It Works](#-how-it-works)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Contact](#-contact)
 
 
 ## Project Overview
