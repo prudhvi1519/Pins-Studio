@@ -16,14 +16,12 @@ Welcome to **Pins Studio**! This project is designed to be a comprehensive platf
 - [License](#license)
 - [Contact](#contact)
 
----
 
 ## Project Overview
 
 **Pins Studio** is a full-stack, Pinterest-style web application designed to offer a seamless and interactive user experience. Users can **upload images, explore creative pins, search content, like and comment on posts**, and **manage their profiles** within a fully **responsive and intuitive interface**.  
 The platform is built using **Django** for backend logic, data handling, and secure authentication, while the front end is crafted with **custom CSS** and **JavaScript** to deliver a fully responsive and personalized user interface. Features like dynamic pin loading, **infinite scrolling with Masonry.js**, and seamless media uploads ensure a robust and interactive user experience. Integration with the **Unsplash API** enhances content discovery, and the application follows Django’s **MVT architecture** for efficient routing and template rendering.  
 
----
 
 ## 🎮 Features
 
@@ -40,7 +38,6 @@ The platform is built using **Django** for backend logic, data handling, and sec
 - **Infinite Scrolling**: Loads more pins dynamically using `infinite_scroll.js` with Masonry layout.
 - **Admin Panel**: Configurable via `admin.py` with a superuser creation command (`create_superuser.py`).
 
----
 
 ## 🛠️ Technologies Used
 
@@ -52,7 +49,6 @@ The platform is built using **Django** for backend logic, data handling, and sec
 - **Django Static Files**: Custom CSS, JavaScript, and favicon for frontend assets.
 - **Unsplash API**: Fetches 150 pins via a custom management command (`fetch_unsplash_pins.py`).
 
----
 
 ## 📂 Project Structure
       pins_studio/  
@@ -96,7 +92,6 @@ The platform is built using **Django** for backend logic, data handling, and sec
       ├── .gitignore                          # Git ignore file  
       └── README.md                           # Project documentation  
 
----
 
 ## 💻 Installation
 
@@ -155,7 +150,6 @@ The platform is built using **Django** for backend logic, data handling, and sec
    http://127.0.0.1:8000/
    ```
 
----
 
 ## 🤖 How It Works  
 ### Frontend:  
@@ -261,7 +255,6 @@ def home(request):
 - **Mobile Navigation**: On screens <991px, click the hamburger menu to access navigation links.
 - **Password Change**: Update password at `/change_password/`.  
 
----
 
 ## 👥 Contributing
 
@@ -284,13 +277,13 @@ def home(request):
    ```
 6. Create a `pull request` on GitHub.
 
----
 
 ## 📜 License  
 This project is open-source and available under the MIT License. - see the [LICENSE](LICENSE) file for details.
 
----
 
 ## 📬 Contact
 - **GitHub Repository**: [https://github.com/Cybrite/Project-N](https://github.com/Cybrite/Project-N)
 - **Issues and Feature Requests**: [GitHub Issues](https://github.com/Cybrite/Project-N/issues)
+
+---
