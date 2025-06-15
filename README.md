@@ -53,46 +53,68 @@ The platform is built using **Django** for backend logic, data handling, and sec
 
 
 ## 📂 Project Structure
-      pins_studio/  
-      ├── .env                                # Environment variables (UNSPLASH_ACCESS_KEY, DATABASE_URL)  
-      ├── manage.py                           # Django management script  
-      ├── pins/                               # Main app directory  
-      │   ├── admin.py                        # Admin panel configurations  
-      │   ├── apps.py                         # App configuration  
-      │   ├── forms.py                        # Forms (SignUpForm, PinForm, CommentForm, ProfileForm)  
-      │   ├── models.py                       # Models (Pin, Pin_likes, Comment, Profile)  
-      │   ├── tests.py                        # Unit tests  
-      │   ├── urls.py                         # App-level URL routing  
-      │   ├── views.py                        # Views (home, load_more_pins, like_pin, etc.)  
-      │   ├── management/                     # Custom management commands  
-      │   │   └── commands/  
-      │   │       ├── create_superuser.py     # Command to create superuser  
-      │   │       ├── fetch_unsplash_pins.py  # Command to fetch 150 Unsplash pins  
-      │   ├── static/pins/                    # Static files  
-      │   │   ├── css/  
-      │   │   │   └── customPinsStudio.css    # Custom CSS (navbar, pins, buttons)  
-      │   │   ├── js/  
-      │   │   │   ├── infinite_scroll.js      # Infinite scrolling with Masonry  
-      │   │   │   └── bootstrap.bundle.min.js  
-      │   │   └── favicon.ico                 # Favicon  
-      │   ├── templates/pins/                 # HTML templates  
-      │   │   ├── base.html                   # Base template with navbar  
-      │   │   ├── home.html                   # Home page with pins and search  
-      │   │   ├── pin_card.html               # Pin card component  
-      │   │   ├── login.html                  # Login page  
-      │   │   ├── signup.html                 # Signup page  
-      │   │   ├── profile.html                # User profile page  
-      │   │   ├── change_password.html        # Password change page  
-      │   │   ├── edit_comment.html           # Edit comment page  
-      │   │   ├── upload_pin.html             # Pin upload page  
-      ├── pins_studio/                        # Project settings  
-      │   ├── asgi.py                         # ASGI configuration  
-      │   ├── settings.py                     # Django settings  
-      │   ├── urls.py                         # Project-level URL routing  
-      │   ├── wsgi.py                         # WSGI configuration  
-      ├── requirements.txt                    # Python dependencies  
-      ├── .gitignore                          # Git ignore file  
-      └── README.md                           # Project documentation  
+
+The directory structure of **Pins Studio** is designed for clarity, modularity, and maintainability. Below is a simplified layout of the core project structure:  
+
+```bash
+pins_studio/
+├── pins/                # Main application logic (models, views, forms, templates)
+├── pins_studio/         # Project-level settings and configuration
+├── manage.py            # Django management script
+├── requirements.txt     # Python dependencies
+├── .env                 # Environment variables (kept secret)
+├── .gitignore           # Files ignored by Git
+└── README.md            # Project overview and documentation
+```
+
+For a more detailed breakdown of the project structure, see the full directory tree in the expanded section below.
+
+<details>
+<summary>Full Directory Structure (Click to expand)</summary>
+
+```bash
+pins_studio/  
+├── .env                                # Environment variables (UNSPLASH_ACCESS_KEY, DATABASE_URL)  
+├── manage.py                           # Django management script  
+├── pins/                               # Main app directory  
+│   ├── admin.py                        # Admin panel configurations  
+│   ├── apps.py                         # App configuration  
+│   ├── forms.py                        # Forms (SignUpForm, PinForm, CommentForm, ProfileForm)  
+│   ├── models.py                       # Models (Pin, Pin_likes, Comment, Profile)  
+│   ├── tests.py                        # Unit tests  
+│   ├── urls.py                         # App-level URL routing  
+│   ├── views.py                        # Views (home, load_more_pins, like_pin, etc.)  
+│   ├── management/                     # Custom management commands  
+│   │   └── commands/  
+│   │       ├── create_superuser.py     # Command to create superuser  
+│   │       ├── fetch_unsplash_pins.py  # Command to fetch 150 Unsplash pins  
+│   ├── static/pins/                    # Static files  
+│   │   ├── css/  
+│   │   │   └── customPinsStudio.css    # Custom CSS (navbar, pins, buttons)  
+│   │   ├── js/  
+│   │   │   ├── infinite_scroll.js      # Infinite scrolling with Masonry  
+│   │   │   └── bootstrap.bundle.min.js  
+│   │   └── favicon.ico                 # Favicon  
+│   ├── templates/pins/                 # HTML templates  
+│   │   ├── base.html                   # Base template with navbar  
+│   │   ├── home.html                   # Home page with pins and search  
+│   │   ├── pin_card.html               # Pin card component  
+│   │   ├── login.html                  # Login page  
+│   │   ├── signup.html                 # Signup page  
+│   │   ├── profile.html                # User profile page  
+│   │   ├── change_password.html        # Password change page  
+│   │   ├── edit_comment.html           # Edit comment page  
+│   │   ├── upload_pin.html             # Pin upload page  
+├── pins_studio/                        # Project settings  
+│   ├── asgi.py                         # ASGI configuration  
+│   ├── settings.py                     # Django settings  
+│   ├── urls.py                         # Project-level URL routing  
+│   ├── wsgi.py                         # WSGI configuration  
+├── requirements.txt                    # Python dependencies  
+├── .gitignore                          # Git ignore file  
+└── README.md                           # Project documentation
+```
+</details>
 
 
 ## 💻 Installation
