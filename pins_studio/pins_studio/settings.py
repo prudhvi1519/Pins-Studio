@@ -2,6 +2,8 @@ from pathlib import Path
 from decouple import config
 import os
 import dj_database_url
+import cloudinary
+import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,6 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "pins",
+    "cloudinary",
+    "cloudinary_storage",
 ]
 
 MIDDLEWARE = [
@@ -65,9 +69,9 @@ else:
 if ENVIRONMENT == 'production':
     DATABASES = {
         'default': dj_database_url.config(
-            default=config('DATABASE_URL', default=''),
+            default=config('DATABASE_URL'),
             conn_max_age=600,
-            ssl_require=True
+            ssl_require=True,
         )
     }
 else:
@@ -78,10 +82,21 @@ else:
             'USER': config('DB_USER', default='root'),
             'PASSWORD': config('DB_PASSWORD', default=''),
             'HOST': config('DB_HOST', default='localhost'),
-            'PORT': config('DB_PORT', default=3306, cast=int),
+            'PORT': config('DB_PORT', default='3306', cast=int),
         }
     }
 
+# Cloudinary configuration
+cloudinary.config(
+    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+    api_key=config('CLOUDINARY_API_KEY'),
+    api_secret=config('CLOUDINARY_API_SECRET'),
+)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -98,28 +113,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = config('TIME_ZONE')
+TIME_ZONE = config('TIME_ZONE', default='Asia/Kolkata')
 
 USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static' / 'pins']
+STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static']  # Corrected path
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (Uploaded images)
 MEDIA_URL = '/media/'
 if ENVIRONMENT == 'local':
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-else:
-    MEDIA_ROOT = ''
+    MEDIA_ROOT = BASE_DIR / 'media'  # Use Path for consistency
 
 # Login URL for redirects
 LOGIN_URL = '/login/'
