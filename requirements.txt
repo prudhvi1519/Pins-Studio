@@ -6,6 +6,4 @@ whitenoise
 gunicorn
 mysqlclient
 Pillow
-cloudinary
-django-cloudinary-storage
 requests>=2.0

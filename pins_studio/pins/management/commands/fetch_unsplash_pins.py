@@ -30,7 +30,7 @@ class Command(BaseCommand):
         pins_per_page = 25
         pages = (pins_to_fetch + pins_per_page - 1) // pins_per_page
         fetched_pins = 0
-        existing_urls = set(Pin.objects.filter(source_url__isnull=False).values_list('source_url', flat=True))
+        existing_urls = set(Pin.objects.filter(image_url__isnull=False).values_list('image_url', flat=True))
 
         for page in range(1, pages + 1):
             params = {
@@ -55,7 +55,7 @@ class Command(BaseCommand):
                     description = f"Photo by {photo['user']['name']} on Unsplash"
                     pin = Pin(
                         title=title,
-                        source_url=image_url,  # Changed from image_url to source_url
+                        image_url=image_url,
                         description=description,
                         user=user,
                     )

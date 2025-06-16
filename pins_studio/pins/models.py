@@ -2,15 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+# Pin model with a likes ManyToManyField
 class Pin(models.Model):
-    # Pin model for storing pin details
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='pins/', blank=True, null=True)
-    source_url = models.URLField(max_length=255, blank=True, null=True)
+    image_url = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now, db_index=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pins')
-    likes = models.ManyToManyField(User, related_name='liked_pins', blank=True, through='PinLike')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User, related_name='liked_pins', blank=True, through='Pin_likes')
 
     def __str__(self):
         return self.title
@@ -18,32 +18,27 @@ class Pin(models.Model):
     def like_count(self):
         return self.likes.count()
 
-class PinLike(models.Model):    # Intermediate model for pin likes
-    pin = models.ForeignKey(Pin, on_delete=models.CASCADE, related_name='pin_likes')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_likes')
+# Pin_likes intermediate model for likes
+class Pin_likes(models.Model):
+    pin = models.ForeignKey(Pin, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('pin', 'user')
-        indexes = [
-            models.Index(fields=['user', 'pin']),
-        ]
 
-class Comment(models.Model):    # Comment model for pin comments
+# Comment model related to Pin and User
+class Comment(models.Model):
     pin = models.ForeignKey(Pin, on_delete=models.CASCADE, related_name='comments')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"Comment by {self.user.username} on {self.pin.title}"
 
-    class Meta:
-        indexes = [
-            models.Index(fields=['pin', 'created_at']),
-        ]
-
-class Profile(models.Model):    # User profile model
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+# Profile model related to the User model
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
 
