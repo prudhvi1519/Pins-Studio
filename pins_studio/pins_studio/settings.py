@@ -23,9 +23,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "pins",
-    "cloudinary",
-    "cloudinary_storage",
+    'pins',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -71,7 +71,7 @@ if ENVIRONMENT == 'production':
         'default': dj_database_url.config(
             default=config('DATABASE_URL'),
             conn_max_age=600,
-            ssl_require=True,
+            conn_health_checks=True,
         )
     }
 else:
@@ -95,7 +95,7 @@ cloudinary.config(
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': config('CLOUDINARY_API_KEY'),
-    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),  # Corrected key
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -123,14 +123,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static']  # Corrected path
+STATICFILES_DIRS = [BASE_DIR / 'pins' / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (Uploaded images)
 MEDIA_URL = '/media/'
 if ENVIRONMENT == 'local':
-    MEDIA_ROOT = BASE_DIR / 'media'  # Use Path for consistency
+    MEDIA_ROOT = BASE_DIR / 'media'
 
 # Login URL for redirects
 LOGIN_URL = '/login/'
