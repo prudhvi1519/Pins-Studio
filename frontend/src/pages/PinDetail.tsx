@@ -5,16 +5,16 @@ import { getPinById } from '../data/getPinById';
 import type { Pin } from '../types/pin';
 import { useReducedMotionPref } from '../motion/useReducedMotionPref';
 import { Button } from '../components/core/Button';
-import { useToast } from '../components/primitives/useToast';
 import Container from '../components/layout/Container';
+import { SaveToBoardSheet } from '../components/boards/SaveToBoardSheet';
 
 export default function PinDetail() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const prefersReduced = useReducedMotionPref();
-    const { toast } = useToast();
 
     const [pin, setPin] = useState<Pin | null>(null);
+    const [isSaveSheetOpen, setIsSaveSheetOpen] = useState(false);
 
     useEffect(() => {
         if (id) {
@@ -66,7 +66,7 @@ export default function PinDetail() {
                                 <Button variant="secondary" onClick={() => window.open(pin.sourceUrl, '_blank')}>
                                     Open
                                 </Button>
-                                <Button variant="primary" onClick={() => toast({ message: "Saved!", type: "success" })}>
+                                <Button variant="primary" onClick={() => setIsSaveSheetOpen(true)}>
                                     Save
                                 </Button>
                             </div>
@@ -74,6 +74,12 @@ export default function PinDetail() {
                     </div>
                 </div>
             </div>
+
+            <SaveToBoardSheet
+                isOpen={isSaveSheetOpen}
+                onClose={() => setIsSaveSheetOpen(false)}
+                pinId={pin.id}
+            />
         </Container>
     );
 }
