@@ -1,7 +1,9 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { FeedQueryDto } from './dto/feed.query';
-
+import { CreatePinDto } from './dto/create-pin.dto';
+import { UpdatePinDto } from './dto/update-pin.dto';
+import { mapPrismaError } from '../common/prisma-errors';
 @Injectable()
 export class PinsService {
     constructor(private prisma: PrismaService) { }
@@ -66,5 +68,55 @@ export class PinsService {
             items,
             nextCursor,
         };
+    }
+
+    async create(createPinDto: CreatePinDto) {
+        try {
+            // Tags might be undefined if not provided in request but our DTO sets default []
+            const tags = createPinDto.tags ?? [];
+            return await this.prisma.pin.create({
+                data: {
+                    ...createPinDto,
+                    tags,
+                },
+            });
+        } catch (error) {
+            mapPrismaError(error);
+        }
+    }
+
+    async findOne(id: string) {
+        try {
+            const pin = await this.prisma.pin.findUnique({
+                where: { id },
+            });
+            if (!pin) {
+                throw new NotFoundException('Record not found');
+            }
+            return pin;
+        } catch (error) {
+            mapPrismaError(error);
+        }
+    }
+
+    async update(id: string, updatePinDto: UpdatePinDto) {
+        try {
+            return await this.prisma.pin.update({
+                where: { id },
+                data: updatePinDto,
+            });
+        } catch (error) {
+            mapPrismaError(error);
+        }
+    }
+
+    async remove(id: string) {
+        try {
+            return await this.prisma.pin.delete({
+                where: { id },
+            });
+        } catch (error) {
+            mapPrismaError(error);
+        }
     }
 }
