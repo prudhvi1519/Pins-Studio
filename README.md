@@ -1,8 +1,13 @@
 # Pins Studio
 
-Welcome to **Pins Studio**! This project is designed to be a comprehensive platform that leverages the power of modern web technologies to provide seamless user experiences and interactive features.
+> **Phase 1 Rebuild Quickstart**
+> - **Frontend (Vite/React):** `cd frontend && npm install && npm run dev`
+> - **Backend (NestJS):** `cd backend && npm install && npm run start:dev`
+> - **Rules:** `pins_studio/` is strictly legacy and read-only. Do not edit, add, or delete files inside it. Please see `docs/PHASE1_LOCAL_DEV.md` for more details.
 
 ---
+
+Welcome to **Pins Studio**! This project is designed to be a comprehensive platform that leverages the power of modern web technologies to provide seamless user experiences and interactive features.
 
 ## Table of Contents
 
