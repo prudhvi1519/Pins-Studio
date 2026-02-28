@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider, Outlet, Link } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
+import Page from './components/layout/Page';
 import Home from './pages/Home';
 import Search from './pages/Search';
 import Boards from './pages/Boards';
@@ -9,22 +10,20 @@ import Admin from './pages/Admin';
 
 const AppShell = () => {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Dev links for Settings / Admin (since they aren't in bottom nav directly) */}
-      <div className="bg-gray-100 p-2 text-xs flex gap-4 border-b border-gray-200">
-        <span className="font-semibold">Dev Links:</span>
-        <Link to="/settings" className="hover:underline text-blue-600">Settings</Link>
-        <Link to="/admin" className="hover:underline text-blue-600">Admin</Link>
+    <Page>
+      {/* Dev links for Settings / Admin */}
+      <div className="bg-surface p-8 flex gap-16 border-b border-border">
+        <span className="font-semibold text-caption">Dev:</span>
+        <Link to="/settings" className="hover:text-hover text-accent text-caption">Settings</Link>
+        <Link to="/admin" className="hover:text-hover text-accent text-caption">Admin</Link>
       </div>
 
-      {/* Main Content Area (padding bottom to avoid overlap with nav) */}
-      <main className="pb-24">
+      <main>
         <Outlet />
       </main>
 
-      {/* Fixed Bottom Navigation */}
       <BottomNav />
-    </div>
+    </Page>
   );
 };
 

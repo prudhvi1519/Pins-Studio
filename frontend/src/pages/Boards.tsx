@@ -1,8 +1,10 @@
+import Container from '../components/layout/Container';
+
 export default function Boards() {
     return (
-        <div className="p-6">
-            <h1 className="text-3xl font-bold mb-2">Boards</h1>
-            <p className="text-gray-600">Phase 1 placeholder</p>
-        </div>
+        <Container className="pt-24">
+            <h1>Boards</h1>
+            <p className="text-muted mt-8">Phase 2 UI foundation</p>
+        </Container>
     );
 }
