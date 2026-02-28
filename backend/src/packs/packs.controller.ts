@@ -39,13 +39,3 @@ export class PacksController {
         return this.packsService.findItems(params.id, query.status);
     }
 }
-
-@Controller('jobs')
-export class JobsController {
-    @Post('ingest-pack/:id')
-    @HttpCode(HttpStatus.NOT_IMPLEMENTED)
-    ingestPack(@Param(new ValidationPipe({ whitelist: true })) params: PackParamsDto) {
-        // TODO: Phase 6 Admin Auth guard here
-        throw new NotImplementedException('Ingestion pipeline wired in Phase 5 Prompt 2/3');
-    }
-}
