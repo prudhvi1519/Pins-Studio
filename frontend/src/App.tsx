@@ -9,6 +9,7 @@ import Boards from './pages/Boards';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Admin from './pages/Admin';
+import PinDetail from './pages/PinDetail';
 import { useReducedMotionPref } from './motion/useReducedMotionPref';
 import { getPageVariants } from './motion/variants';
 
@@ -58,6 +59,7 @@ const router = createBrowserRouter([
       { path: 'profile', element: <Profile /> },
       { path: 'settings', element: <Settings /> },
       { path: 'admin', element: <Admin /> },
+      { path: 'pin/:id', element: <PinDetail /> },
     ],
   },
 ]);
