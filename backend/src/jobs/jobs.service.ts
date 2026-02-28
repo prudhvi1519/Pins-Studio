@@ -4,6 +4,8 @@ import { fetchHtmlSafely } from '../ingestion/og/og.fetch';
 import { extractCanonicalFromHtml, parseOgMetadata } from '../ingestion/og/og.parse';
 import { canonicalizeUrl } from '../ingestion/url/canonicalize';
 import { PackItemStatus } from '@prisma/client';
+import { checkImageQuality } from '../ingestion/image/imageQuality';
+import { resolvePexelsFallback } from '../ingestion/pexels/pexels.search';
 
 @Injectable()
 export class JobsService {
@@ -72,8 +74,23 @@ export class JobsService {
                 });
 
                 // 5. Attempt creation in DB (dedupe handling via Prisma Catch)
-                // If image is null/empty we store an empty string or placeholder for Prompt 3 repair
-                const finalImage = ogMetadata.image || '';
+                let finalImage = ogMetadata.image || '';
+                let attributionText: string | null = null;
+                let lastErrorVal: string | null = null;
+
+                // Image Quality Gate & Pexels Fallback
+                const qualityCheck = await checkImageQuality(finalImage);
+                if (!qualityCheck.isAcceptable) {
+                    this.logger.log(`Image candidate rejected (${qualityCheck.reason}) for ${finalUrl}, triggering fallback...`);
+                    const fallback = await resolvePexelsFallback(ogMetadata.title, ogMetadata.domain);
+                    if (fallback) {
+                        finalImage = fallback.imageUrl;
+                        attributionText = fallback.attributionText;
+                    } else {
+                        // If Pexels fails, keep whatever we had (or empty), but append warning to lastError
+                        lastErrorVal = 'pexels_failed';
+                    }
+                }
 
                 try {
                     // Temporarily hardcode a system userId if needed, or query first admin.
@@ -90,6 +107,7 @@ export class JobsService {
                             canonicalUrl: finalUrl,
                             domain: ogMetadata.domain,
                             imageUrl: finalImage,
+                            attributionText: attributionText,
                             userId: adminUser.id,
                         },
                     });
@@ -99,7 +117,7 @@ export class JobsService {
                         where: { id: item.id },
                         data: {
                             status: PackItemStatus.ingested,
-                            lastError: null,
+                            lastError: lastErrorVal,
                         },
                     });
 
