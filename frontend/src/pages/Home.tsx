@@ -1,24 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Container from '../components/layout/Container';
 import { Chip } from '../components/core/Chip';
-import { getPinsPage } from '../data/mockFeed';
-import type { Pin } from '../types/pin';
+import { PinCard } from '../components/feed/PinCard';
+import { Masonry } from '../components/feed/Masonry';
+import { SkeletonCard } from '../components/feed/SkeletonCard';
+import { useInfinitePins } from '../hooks/useInfinitePins';
 
 const CATEGORIES = ['For You', 'UI', 'Marketing', 'Tools', 'Startups', 'Case Studies'];
 
 export default function Home() {
-    const [pins, setPins] = useState<Pin[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const { pins, isLoadingInitial, isFetchingMore, hasNextPage, loadMore } = useInfinitePins();
+    const observerRef = useRef<IntersectionObserver | null>(null);
+    const sentinelRef = useRef<HTMLDivElement | null>(null);
 
+    // IntersectionObserver for infinite scroll
     useEffect(() => {
-        const loadInitialPins = async () => {
-            setIsLoading(true);
-            const data = await getPinsPage({ cursor: 0, limit: 20 });
-            setPins(data.items);
-            setIsLoading(false);
-        };
-        loadInitialPins();
-    }, []);
+        if (isLoadingInitial) return;
+
+        observerRef.current = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && hasNextPage && !isFetchingMore) {
+                    loadMore();
+                }
+            },
+            { rootMargin: '800px' }
+        );
+
+        if (sentinelRef.current) {
+            observerRef.current.observe(sentinelRef.current);
+        }
+
+        return () => observerRef.current?.disconnect();
+    }, [isLoadingInitial, isFetchingMore, hasNextPage, loadMore]);
 
     return (
         <Container className="pt-24 pb-32">
@@ -31,28 +44,34 @@ export default function Home() {
                 ))}
             </div>
 
-            {/* Feed List (Non-Masonry Mock) */}
-            <div className="mt-16 flex flex-col gap-24">
-                {isLoading && pins.length === 0 ? (
-                    <div className="text-muted text-center py-48">Loading feed...</div>
-                ) : (
-                    pins.map((pin) => (
-                        <div key={pin.id} className="flex flex-col gap-8">
-                            {/* Fixed aspect ratio container for testing without masonry */}
-                            <div className="relative w-full aspect-[3/4] bg-bg rounded-card overflow-hidden border border-border">
-                                <img
-                                    src={pin.imageUrl}
-                                    alt={pin.title}
-                                    className="absolute inset-0 w-full h-full object-cover"
-                                    loading="lazy"
+            <div className="mt-16">
+                <Masonry>
+                    {/* Render actual pins */}
+                    {pins.map((pin) => (
+                        <PinCard key={pin.id} pin={pin} />
+                    ))}
+
+                    {/* Skeletons block during initial load or pagination */}
+                    {(isLoadingInitial || isFetchingMore) && (
+                        <>
+                            {Array.from({ length: isLoadingInitial ? 12 : 4 }).map((_, i) => (
+                                <SkeletonCard
+                                    key={`skeleton-${i}`}
+                                    height={300 + (i % 3) * 50}
                                 />
-                            </div>
-                            <div className="px-4">
-                                <h3 className="text-body font-semibold text-text truncate">{pin.title}</h3>
-                                <p className="text-caption text-muted">{pin.domain}</p>
-                            </div>
-                        </div>
-                    ))
+                            ))}
+                        </>
+                    )}
+                </Masonry>
+
+                {/* Sentinel for IntersectionObserver */}
+                <div ref={sentinelRef} className="h-1" />
+
+                {/* End of feed graceful state */}
+                {!hasNextPage && !isLoadingInitial && (
+                    <div className="text-center py-24 text-muted text-caption">
+                        You've reached the end of the line!
+                    </div>
                 )}
             </div>
         </Container>
