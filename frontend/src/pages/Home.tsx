@@ -3,6 +3,7 @@ import { API_URL } from '../config/env';
 import Container from '../components/layout/Container';
 import Sheet from '../components/primitives/Sheet';
 import { useToast } from '../components/primitives/useToast';
+import { Button } from '../components/core/Button';
 
 export default function Home() {
     const [isSheetOpen, setSheetOpen] = useState(false);
@@ -14,18 +15,18 @@ export default function Home() {
             <p className="text-muted mt-8 mb-16">Phase 2 UI foundation</p>
 
             <div className="flex gap-12 mb-24">
-                <button
+                <Button
                     onClick={() => setSheetOpen(true)}
-                    className="bg-accent text-surface px-16 py-8 rounded-full hover:bg-hover active:scale-95 transition-all text-button"
+                    variant="primary"
                 >
                     Open Sheet
-                </button>
-                <button
+                </Button>
+                <Button
                     onClick={() => toast({ message: "Board created successfully!", type: "success" })}
-                    className="bg-surface text-text border border-border px-16 py-8 rounded-full hover:bg-bg active:scale-95 transition-all text-button"
+                    variant="secondary"
                 >
                     Show Toast
-                </button>
+                </Button>
             </div>
 
             <div className="font-mono bg-surface border border-border p-16 rounded-card">
