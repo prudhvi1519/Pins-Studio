@@ -3,6 +3,7 @@ import { cn } from '../../lib/cn';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useReducedMotionPref } from '../../motion/useReducedMotionPref';
+import { useSavedPins } from '../../hooks/useSavedPins';
 
 interface PinCardProps {
     pin: Pin;
@@ -12,6 +13,9 @@ interface PinCardProps {
 
 export function PinCard({ pin, className, onClick }: PinCardProps) {
     const prefersReduced = useReducedMotionPref();
+    const { isSaved } = useSavedPins();
+
+    const saved = isSaved(pin.id);
 
     // We use the image height if available to prevent layout shifting
     // Fallback to a 3/4 aspect ratio if unknown
@@ -43,7 +47,13 @@ export function PinCard({ pin, className, onClick }: PinCardProps) {
                 />
 
                 {/* Hover overlay placeholder for future Save button */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none" />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none p-12">
+                    {saved && (
+                        <div className="absolute top-12 left-12 bg-accent text-surface text-caption font-semibold px-12 py-4 rounded-chip shadow-card">
+                            Saved
+                        </div>
+                    )}
+                </div>
             </motion.div>
 
             <div className="px-4 pb-4">
