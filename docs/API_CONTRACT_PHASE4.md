@@ -155,3 +155,70 @@ Assigns an existing pin to this board layout.
 ### `DELETE /boards/:id/pins/:pinId`
 Unassigns an existing pin from this board layout.
 **Response**: `204 No Content` | `404 Not Found` | `409 Conflict` *(If pin was not assigned to this board)*
+
+---
+
+## Phase 5: Packs & Ingestion
+
+### `POST /packs`
+Creates a curated pack container.
+**Rate limited**: 10/min
+**Request Body**
+```json
+{
+  "name": "Web Design Links",
+  "slug": "web-design-links",
+  "description": "Curated web design resources"
+}
+```
+**Response**: `201 Created`
+
+### `GET /packs`
+Lists all curated packs.
+**Response**: `200 OK`
+
+### `POST /packs/:id/items`
+Adds URLs to a pack as pending items.
+**Rate limited**: 30/min
+**Request Body**
+```json
+{
+  "urls": ["https://example.com/a", "https://example.com/b"]
+}
+```
+**Response**: `201 Created`
+
+### `GET /packs/:id/items`
+Lists items in a pack. Optional `?status=pending|ingested|failed` filter.
+**Response**: `200 OK`
+
+### `POST /jobs/ingest-pack/:id`
+Enqueues an async ingestion job for a pack. Requires `INGEST_ENABLED=true`.
+**Rate limited**: 10/min
+**Response**: `202 Accepted`
+```json
+{
+  "jobId": "1"
+}
+```
+
+### `GET /jobs/:jobId`
+Returns the status of a BullMQ job.
+**Response**: `200 OK`
+```json
+{
+  "id": "1",
+  "status": "completed",
+  "progress": 100,
+  "result": {
+    "packId": "...",
+    "processed": 200,
+    "ingested": 195,
+    "deduped": 3,
+    "failed": 2
+  },
+  "error": null
+}
+```
+
+> **Note**: Ingestion runs externally in worker process only. `GET /pins` is DB-only — no external calls.

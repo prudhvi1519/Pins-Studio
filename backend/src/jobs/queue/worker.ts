@@ -81,6 +81,7 @@ export class IngestionWorkerService implements OnModuleInit, OnModuleDestroy {
             summary.processed++;
 
             try {
+                this.logger.log(`[INGEST external fetch] OG HTML fetch: ${item.sourceUrl}`);
                 const fetchResult = await fetchHtmlSafely(item.sourceUrl);
 
                 if (fetchResult.error || !fetchResult.html) {
@@ -107,7 +108,7 @@ export class IngestionWorkerService implements OnModuleInit, OnModuleDestroy {
 
                 const qualityCheck = await checkImageQuality(finalImage);
                 if (!qualityCheck.isAcceptable) {
-                    this.logger.log(`Image rejected (${qualityCheck.reason}) for ${finalUrl}, triggering fallback...`);
+                    this.logger.log(`[INGEST external fetch] Image rejected (${qualityCheck.reason}) for ${finalUrl}, triggering Pexels fallback...`);
                     const fallback = await resolvePexelsFallback(ogMetadata.title, ogMetadata.domain);
                     if (fallback) {
                         finalImage = fallback.imageUrl;
