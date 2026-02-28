@@ -5,7 +5,7 @@ import { MotionTokens } from './tokens';
  */
 
 // 1) Page enter/exit transitions
-export const getPageVariants = (reducedMotion: boolean) => {
+export const getPageVariants = (reducedMotion: boolean): any => {
     if (reducedMotion) {
         return {
             initial: { opacity: 0 },
@@ -30,7 +30,7 @@ export const getPageVariants = (reducedMotion: boolean) => {
 };
 
 // 2) BottomNav Active Indicator
-export const getActiveIndicatorVariants = (reducedMotion: boolean) => {
+export const getActiveIndicatorVariants = (reducedMotion: boolean): any => {
     if (reducedMotion) {
         return {
             initial: { opacity: 0 },
@@ -55,12 +55,79 @@ export const getActiveIndicatorVariants = (reducedMotion: boolean) => {
 };
 
 // 3) FAB Press Feedback
-export const getFabPressVariants = (reducedMotion: boolean) => {
+export const getFabPressVariants = (reducedMotion: boolean): any => {
     if (reducedMotion) {
         return {}; // No scale on tap
     }
     return {
         scale: 0.98,
         transition: { duration: MotionTokens.duration.fast }
+    };
+};
+
+// 4) Bottom Sheet enter/exit transitions
+export const getSheetVariants = (reducedMotion: boolean): any => {
+    if (reducedMotion) {
+        return {
+            initial: { opacity: 0 },
+            animate: { opacity: 1, transition: { duration: MotionTokens.duration.fast } },
+            exit: { opacity: 0, transition: { duration: MotionTokens.duration.fast } }
+        };
+    }
+
+    return {
+        initial: { y: "100%", opacity: 0.5 },
+        animate: {
+            y: 0,
+            opacity: 1,
+            transition: MotionTokens.spring.sheet
+        },
+        exit: {
+            y: "100%",
+            opacity: 0,
+            transition: { duration: MotionTokens.duration.standard }
+        }
+    };
+};
+
+export const getBackdropVariants = (reducedMotion: boolean): any => {
+    if (reducedMotion) {
+        return {
+            initial: { opacity: 0 },
+            animate: { opacity: 1, transition: { duration: MotionTokens.duration.fast } },
+            exit: { opacity: 0, transition: { duration: MotionTokens.duration.fast } }
+        };
+    }
+    return {
+        initial: { opacity: 0 },
+        animate: { opacity: 1, transition: { duration: MotionTokens.duration.standard } },
+        exit: { opacity: 0, transition: { duration: MotionTokens.duration.standard } }
+    };
+};
+
+// 5) Toast enter/exit transitions
+export const getToastVariants = (reducedMotion: boolean): any => {
+    if (reducedMotion) {
+        return {
+            initial: { opacity: 0 },
+            animate: { opacity: 1, transition: { duration: MotionTokens.duration.fast } },
+            exit: { opacity: 0, transition: { duration: MotionTokens.duration.fast } }
+        };
+    }
+
+    return {
+        initial: { y: 20, opacity: 0, scale: 0.95 },
+        animate: {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            transition: { duration: MotionTokens.duration.fast }
+        },
+        exit: {
+            y: 20,
+            opacity: 0,
+            scale: 0.95,
+            transition: { duration: MotionTokens.duration.fast }
+        }
     };
 };
