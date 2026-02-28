@@ -1,13 +1,14 @@
 import { API_URL } from '../config/env';
+import Container from '../components/layout/Container';
 
 export default function Home() {
     return (
-        <div className="p-6">
-            <h1 className="text-3xl font-bold mb-2">Home</h1>
-            <p className="text-gray-600 mb-4">Phase 1 placeholder</p>
-            <div className="text-xs font-mono bg-gray-100 p-2 rounded">
+        <Container className="pt-24">
+            <h1>Home</h1>
+            <p className="text-muted mt-8 mb-16">Phase 2 UI foundation</p>
+            <div className="font-mono bg-surface border border-border p-16 rounded-card">
                 API_URL = {API_URL}
             </div>
-        </div>
+        </Container>
     );
 }
