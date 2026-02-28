@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider, Outlet, Link, useLocation } from '
 import { AnimatePresence, motion } from 'framer-motion';
 import BottomNav from './components/BottomNav';
 import Page from './components/layout/Page';
+import ToastContainer from './components/primitives/Toast';
 import Home from './pages/Home';
 import Search from './pages/Search';
 import Boards from './pages/Boards';
@@ -18,6 +19,7 @@ const AppShell = () => {
 
   return (
     <Page>
+      <ToastContainer />
       {/* Dev links for Settings / Admin */}
       <div className="bg-surface p-8 flex gap-16 border-b border-border relative z-50">
         <span className="font-semibold text-caption">Dev:</span>
