@@ -47,7 +47,7 @@ Retrieves a cursor-paginated feed of Pins. Offers stable ordering via `createdAt
       "updatedAt": "2026-02-28T15:51:10.912Z"
     }
   ],
-  "nextCursor": "eyAgIC... base64...  x234"
+  "nextCursor": "<base64CursorString>"
 }
 ```
 
