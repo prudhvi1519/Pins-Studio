@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  user
+  admin
+}
+
+enum PackItemStatus {
+  pending
+  ingested
+  failed
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String?
+  avatarUrl    String?
+  role         Role     @default(user)
+  passwordHash String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  boards       Board[]
+  pins         Pin[]
+}
+
+model Board {
+  id        String   @id @default(uuid())
+  name      String
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pins      Pin[]
+}
+
+model Pin {
+  id             String   @id @default(uuid())
+  title          String
+  description    String?
+  tags           String[]
+  category       String?
+  sourceUrl      String
+  canonicalUrl   String   @unique
+  domain         String
+  imageUrl       String
+  imageWidth     Int?
+  imageHeight    Int?
+  attributionText String?
+  userId         String
+  boardId        String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  board          Board?   @relation(fields: [boardId], references: [id], onDelete: SetNull)
+}
+
+model CuratedPack {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  slug        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  items       CuratedPackItem[]
+}
+
+model CuratedPackItem {
+  id           String         @id @default(uuid())
+  packId       String
+  sourceUrl    String
+  canonicalUrl String
+  status       PackItemStatus @default(pending)
+  lastError    String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  pack         CuratedPack    @relation(fields: [packId], references: [id], onDelete: Cascade)
+}
