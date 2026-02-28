@@ -7,11 +7,13 @@ import { useReducedMotionPref } from '../motion/useReducedMotionPref';
 import { Button } from '../components/core/Button';
 import Container from '../components/layout/Container';
 import { SaveToBoardSheet } from '../components/boards/SaveToBoardSheet';
+import { useSavedPins } from '../hooks/useSavedPins';
 
 export default function PinDetail() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const prefersReduced = useReducedMotionPref();
+    const { getSavedBoard } = useSavedPins();
 
     const [pin, setPin] = useState<Pin | null>(null);
     const [isSaveSheetOpen, setIsSaveSheetOpen] = useState(false);
@@ -32,6 +34,7 @@ export default function PinDetail() {
         );
     }
 
+    const savedBoard = getSavedBoard(pin.id);
     const layoutId = prefersReduced ? undefined : `pin-image-${pin.id}`;
 
     return (
@@ -66,6 +69,11 @@ export default function PinDetail() {
                                 <Button variant="secondary" onClick={() => window.open(pin.sourceUrl, '_blank')}>
                                     Open
                                 </Button>
+                                {savedBoard && (
+                                    <span className="text-caption font-semibold text-text truncate max-w-[120px] md:max-w-none ml-4">
+                                        Saved to {savedBoard.name}
+                                    </span>
+                                )}
                                 <Button variant="primary" onClick={() => setIsSaveSheetOpen(true)}>
                                     Save
                                 </Button>

@@ -5,7 +5,8 @@ import Page from './components/layout/Page';
 import ToastContainer from './components/primitives/Toast';
 import Home from './pages/Home';
 import Search from './pages/Search';
-import Boards from './pages/Boards';
+import BoardsList from './pages/BoardsList';
+import BoardDetail from './pages/BoardDetail';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Admin from './pages/Admin';
@@ -55,7 +56,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: 'search', element: <Search /> },
-      { path: 'boards', element: <Boards /> },
+      { path: 'boards', element: <BoardsList /> },
+      { path: 'boards/:id', element: <BoardDetail /> },
       { path: 'profile', element: <Profile /> },
       { path: 'settings', element: <Settings /> },
       { path: 'admin', element: <Admin /> },
