@@ -1,5 +1,8 @@
 import type { Pin } from '../../types/pin';
 import { cn } from '../../lib/cn';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useReducedMotionPref } from '../../motion/useReducedMotionPref';
 
 interface PinCardProps {
     pin: Pin;
@@ -8,21 +11,27 @@ interface PinCardProps {
 }
 
 export function PinCard({ pin, className, onClick }: PinCardProps) {
+    const prefersReduced = useReducedMotionPref();
+
     // We use the image height if available to prevent layout shifting
     // Fallback to a 3/4 aspect ratio if unknown
     const aspectRatio = pin.imageWidth && pin.imageHeight
         ? `${pin.imageWidth} / ${pin.imageHeight}`
         : '3 / 4';
 
+    const layoutId = prefersReduced ? undefined : `pin-image-${pin.id}`;
+
     return (
-        <div
+        <Link
+            to={`/pin/${pin.id}`}
             className={cn(
-                "flex flex-col gap-8 group cursor-zoom-in break-inside-avoid mb-12",
+                "flex flex-col gap-8 group cursor-zoom-in break-inside-avoid mb-12 block",
                 className
             )}
             onClick={onClick}
         >
-            <div
+            <motion.div
+                layoutId={layoutId}
                 className="relative w-full bg-bg rounded-card overflow-hidden shadow-card"
                 style={{ aspectRatio }}
             >
@@ -35,12 +44,12 @@ export function PinCard({ pin, className, onClick }: PinCardProps) {
 
                 {/* Hover overlay placeholder for future Save button */}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none" />
-            </div>
+            </motion.div>
 
             <div className="px-4 pb-4">
                 <h3 className="text-body font-semibold text-text truncate">{pin.title}</h3>
                 <p className="text-caption text-muted truncate">{pin.domain}</p>
             </div>
-        </div>
+        </Link>
     );
 }
