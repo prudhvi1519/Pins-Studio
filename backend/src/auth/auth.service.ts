@@ -42,6 +42,20 @@ export class AuthService {
         };
     }
 
+    async googleLogin(reqUser: any) {
+        if (!reqUser || !reqUser.email) {
+            throw new UnauthorizedException('No email returned from Google');
+        }
+
+        // Upsert user (no password needed for OAuth)
+        const user = await this.usersService.upsertUser(reqUser.email, reqUser.name, reqUser.avatarUrl);
+
+        return {
+            user,
+            tokens: this.generateTokens(user.id, user.email, user.role),
+        };
+    }
+
     async login(dto: LoginDto) {
         const user = await this.usersService.findByEmail(dto.email);
         if (!user || !user.passwordHash) {
