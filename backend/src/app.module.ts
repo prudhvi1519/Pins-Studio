@@ -19,18 +19,21 @@ import { UsersModule } from './users/users.module';
     ThrottlerModule.forRootAsync({
       useFactory: () => {
         const redisUrl = process.env.REDIS_URL;
-        const throttlerOptions: any = {
-          ttl: 300, // 5 minutes 
-          limit: 30, // 30 requests
+        const config: any = {
+          throttlers: [{
+            ttl: 300000, // 5 minutes (in ms for v6)
+            limit: 30,
+          }]
         };
 
         if (redisUrl) {
-          throttlerOptions.storage = new ThrottlerStorageRedisService(redisUrl);
+          // Provide the Redis storage options if REDIS_URL exists
+          config.storage = new ThrottlerStorageRedisService(redisUrl);
         } else {
           console.warn('REDIS_URL is not set. Using in-memory throttler storage.');
         }
 
-        return throttlerOptions;
+        return config;
       }
     }),
     PrismaModule,
