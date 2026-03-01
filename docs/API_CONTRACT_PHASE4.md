@@ -222,3 +222,39 @@ Returns the status of a BullMQ job.
 ```
 
 > **Note**: Ingestion runs externally in worker process only. `GET /pins` is DB-only — no external calls.
+
+---
+
+## Phase 6: Authentication & Admin
+
+### `POST /auth/dev-login`
+(Dev only) Login with email and name without password.
+**Response**: `201 Created` (Sets `ps_access` and `ps_refresh` cookies)
+
+### `POST /auth/register`
+Register with email, password, and optional name.
+**Response**: `201 Created` (Sets `ps_access` and `ps_refresh` cookies)
+
+### `POST /auth/login`
+Login with email and password.
+**Response**: `201 Created` (Sets `ps_access` and `ps_refresh` cookies)
+
+### `POST /auth/refresh`
+Rotate access and refresh cookies.
+**Response**: `201 Created` (Sets new `ps_access` and `ps_refresh` cookies)
+
+### `POST /auth/logout`
+Log out user.
+**Response**: `201 Created` (Clears `ps_access` and `ps_refresh` cookies)
+
+### `GET /auth/me`
+Retrieve currently logged-in user profile.
+**Response**: `200 OK`
+
+### `GET /auth/google`
+Initiate Google OAuth flow.
+**Response**: `302 Found` (Redirects to Google)
+
+### `GET /auth/google/callback`
+Google OAuth callback endpoint.
+**Response**: `302 Found` (Redirects to frontend `APP_URL`, sets cookies)
