@@ -10,6 +10,8 @@ import { BoardsModule } from './boards/boards.module';
 import { PacksModule } from './packs/packs.module';
 import { JobsModule } from './jobs/jobs.module';
 import { RedisModule } from './redis/redis.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -36,7 +38,9 @@ import { RedisModule } from './redis/redis.module';
     PinsModule,
     BoardsModule,
     PacksModule,
-    JobsModule
+    JobsModule,
+    AuthModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
