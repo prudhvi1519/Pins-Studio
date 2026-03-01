@@ -7,6 +7,7 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { COOKIE_NAMES, setAuthCookies, clearAuthCookies } from './cookies.util';
 import { JwtCookieGuard } from './guards/jwt-cookie.guard';
+import { GoogleOAuthGuard } from './guards/google.guard';
 import { UsersService } from '../users/users.service';
 
 @UseGuards(ThrottlerGuard)
@@ -16,6 +17,20 @@ export class AuthController {
         private readonly authService: AuthService,
         private readonly usersService: UsersService,
     ) { }
+
+    @Get('google')
+    @UseGuards(GoogleOAuthGuard)
+    async googleAuth(@Req() req: Request) {
+        // Guard redirects to Google
+    }
+
+    @Get('google/callback')
+    @UseGuards(GoogleOAuthGuard)
+    async googleAuthRedirect(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+        const { user, tokens } = await this.authService.googleLogin(req.user);
+        setAuthCookies(res, tokens.access, tokens.refresh);
+        res.redirect(process.env.APP_URL || 'http://localhost:5173');
+    }
 
     @Post('register')
     async register(@Body() dto: RegisterDto, @Res({ passthrough: true }) res: Response) {
