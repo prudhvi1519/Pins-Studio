@@ -12,6 +12,7 @@ import { JobsModule } from './jobs/jobs.module';
 import { RedisModule } from './redis/redis.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -43,7 +44,8 @@ import { UsersModule } from './users/users.module';
     PacksModule,
     JobsModule,
     AuthModule,
-    UsersModule
+    UsersModule,
+    AdminModule.register(),
   ],
   controllers: [AppController],
   providers: [AppService],
