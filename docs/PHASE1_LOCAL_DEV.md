@@ -32,3 +32,9 @@ Copy `.env.example` to `.env` in the root of the project. Do NOT commit the `.en
 ```bash
 cp .env.example .env
 ```
+
+Backend env (DB/Redis/GCS/etc):
+```bash
+cp backend/.env.example backend/.env
+```
+Do NOT commit `backend/.env`.

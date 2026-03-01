@@ -13,6 +13,9 @@
 | `INGEST_ENABLED` | ✅ | Set to `"true"` to enable ingestion endpoints |
 | `PEXELS_API_KEY` | ✅ | Pexels API key for image fallback |
 | `WORKER_MODE` | Worker only | Set to `"true"` when running the worker process |
+| `GCS_PROJECT_ID` | ✅ | Google Cloud project ID |
+| `GCS_BUCKET` | ✅ | GCS bucket name for image storage |
+| `GOOGLE_APPLICATION_CREDENTIALS` | ✅ | Path to GCS service-account JSON |
 
 ## Architecture
 
@@ -107,3 +110,11 @@ Invoke-RestMethod -Uri http://localhost:4000/pins?limit=20
 - No secrets are logged or committed
 - `GET /pins` service (`pins.service.ts`) imports **zero** ingestion modules
 - Worker logs `[INGEST external fetch]` for every external call (traceable)
+
+## GCS Credentials
+
+> [!CAUTION]
+> GCS service account JSON must be local-only and gitignored (`backend/credentials/*`).
+> Never commit credential files to the repository.
+
+GCS vars are reserved for future image storage integration; current ingestion stores `imageUrl`/`attributionText` in DB.
