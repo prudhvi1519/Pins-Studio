@@ -1,17 +1,47 @@
 import { Controller, Post, Get, Body, Res, Req, UseGuards, UnauthorizedException } from '@nestjs/common';
+import { ThrottlerGuard, Throttle } from '@nestjs/throttler';
 import type { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 import { DevLoginDto } from './dto/auth.dto';
-import { setAuthCookies, clearAuthCookies } from './cookies.util';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+import { COOKIE_NAMES, setAuthCookies, clearAuthCookies } from './cookies.util';
 import { JwtCookieGuard } from './guards/jwt-cookie.guard';
 import { UsersService } from '../users/users.service';
 
+@UseGuards(ThrottlerGuard)
 @Controller('auth')
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
         private readonly usersService: UsersService,
     ) { }
+
+    @Post('register')
+    async register(@Body() dto: RegisterDto, @Res({ passthrough: true }) res: Response) {
+        const { user, tokens } = await this.authService.register(dto);
+        setAuthCookies(res, tokens.access, tokens.refresh);
+        return user;
+    }
+
+    @Post('login')
+    async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
+        const { user, tokens } = await this.authService.login(dto);
+        setAuthCookies(res, tokens.access, tokens.refresh);
+        return user;
+    }
+
+    @Post('refresh')
+    async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+        const refreshToken = req.cookies?.[COOKIE_NAMES.REFRESH];
+        if (!refreshToken) {
+            throw new UnauthorizedException('No refresh token provided');
+        }
+
+        const { tokens } = await this.authService.refresh(refreshToken);
+        setAuthCookies(res, tokens.access, tokens.refresh);
+        return { ok: true };
+    }
 
     @Post('dev-login')
     async devLogin(@Body() dto: DevLoginDto, @Res({ passthrough: true }) res: Response) {
